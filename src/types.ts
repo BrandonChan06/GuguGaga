@@ -1,5 +1,19 @@
 export type Screen = 'dashboard' | 'itinerary' | 'calendar' | 'budget' | 'bookings' | 'group'
 
+export interface Trip {
+  id: string
+  destination: string
+  country: string
+  flag: string
+  dates: string
+  daysCount: number
+  daysUntil: number
+  status: 'Confirmed' | 'Planning'
+  imageUrl: string
+  travelers: string[]
+  progress: number
+}
+
 export interface ItineraryItem {
   id: string
   day: string

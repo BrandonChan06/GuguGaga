@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ItineraryItem, ExpenseItem, BookingItem, VoteItem, WantToGoItem, SquadMember } from '../types'
 import { EXCHANGE_RATES } from '../data/mockData'
-import { IconClose } from './icons'
+import { IconClose, IconBot } from './icons'
 
 export function ModalAddItinerary({
   day,
@@ -621,21 +621,29 @@ export function ModalAIAssistant({
   onClose: () => void
   onAddDestination: (d: string) => void
 }) {
+  const [activeTab, setActiveTab] = useState<'concierge' | 'explore' | 'tools'>('concierge')
   const [selectedVibe, setSelectedVibe] = useState('Coastal & Warm')
+  const [chatInput, setChatInput] = useState('')
+  const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string }>>([
+    {
+      role: 'assistant',
+      text: "Ciao Sarah! I'm your AI Travel Concierge for Rome. I can help with restaurant picks, skip-the-line tips, weather adjustments, or walking routes. How can I help today?"
+    }
+  ])
 
   const recommendations = [
     {
-      title: 'Maldives · Baa Atoll',
+      title: 'Maldives · Baa Atoll Biosphere',
       score: '99% Match',
-      vibe: 'Warm & Tropical',
-      reviewsSummary: 'Ranked #1 for relaxation. Verified travelers praise overwater bungalows with immediate barrier reef access and zero noise.',
+      vibe: 'Coastal & Warm',
+      reviewsSummary: 'Ranked #1 for tranquility & relaxation. Crystal lagoon waters, overwater villas with private reef access, and zero crowds for post-city recharge.',
       bestMonths: 'Nov – Apr',
       estBudget: '€850/person'
     },
     {
       title: 'Kyoto & Hakone, Japan',
       score: '96% Match',
-      vibe: 'Culture & Nature',
+      vibe: 'Cultural & Historic',
       reviewsSummary: 'Traditional ryokan hot springs with Mount Fuji views, bamboo groves, and world-renowned kaiseki culinary scene.',
       bestMonths: 'Oct – Nov',
       estBudget: '€920/person'
@@ -650,64 +658,195 @@ export function ModalAIAssistant({
     }
   ]
 
+  const quickPrompts = [
+    'Best carbonara near Piazza Navona?',
+    'What is Vatican dress code?',
+    'Day 4 rain alternatives in Rome',
+    'Colosseum skip-the-line tips'
+  ]
+
+  const handleSendMessage = (textToSend?: string) => {
+    const q = textToSend || chatInput
+    if (!q.trim()) return
+
+    const userMsg = q.trim()
+    setChatInput('')
+
+    let reply = "Here's what I found for Rome: The best timing is early morning before 10 AM or late afternoon after 4 PM to avoid crowds. Don't forget comfortable walking shoes!"
+    if (userMsg.toLowerCase().includes('carbonara') || userMsg.toLowerCase().includes('restaurant') || userMsg.toLowerCase().includes('food')) {
+      reply = "Top pick: 'Trattoria Da Enzo al 29' in Trastevere or 'Roscioli Salumeria con Cucina'. Arrive 15 mins before opening or book well in advance!"
+    } else if (userMsg.toLowerCase().includes('vatican') || userMsg.toLowerCase().includes('dress')) {
+      reply = "Strict Vatican & Basilica rule: Shoulders and knees must be fully covered for all travelers. Pack a lightweight linen scarf in your day bag."
+    } else if (userMsg.toLowerCase().includes('rain') || userMsg.toLowerCase().includes('plan b')) {
+      reply = "For rainy weather in Rome: Visit the Capitoline Museums, explore Galleria Borghese (booking required), or enjoy a pasta masterclass indoors in Campo de' Fiori."
+    } else if (userMsg.toLowerCase().includes('colosseum')) {
+      reply = "Colosseum entry requires matching photo ID with the ticket name. Enter via the Stern gate for booked group skip-the-line access."
+    }
+
+    setChatMessages(prev => [
+      ...prev,
+      { role: 'user', text: userMsg },
+      { role: 'assistant', text: reply }
+    ])
+  }
+
   return (
     <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[580px] w-full p-6 space-y-5 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">✨</span>
+      <div className="bg-white rounded-3xl max-w-[620px] w-full p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
+              <IconBot size={16} color="white" />
+            </div>
             <div>
-              <h3 className="text-[16px] font-extrabold text-slate-900">AI Destination Recommender & Reviews</h3>
-              <p className="text-[11px] text-slate-400">Trained on 40,000+ verified traveler reviews and flight algorithms</p>
+              <h3 className="text-[16px] font-extrabold text-slate-900">Ask Wayfarer AI</h3>
+              <p className="text-[11px] text-slate-400">Intelligent travel assistant, recommendations & concierge</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><IconClose size={18} /></button>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 cursor-pointer"><IconClose size={18} /></button>
         </div>
 
-        {/* Vibe Selector */}
-        <div className="space-y-1.5">
-          <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wide block">Select Next Trip Vibe</span>
-          <div className="flex flex-wrap gap-1.5">
-            {['Coastal & Warm', 'Cultural & Historic', 'Mountain & Hiking', 'Culinary & Wine'].map(v => (
-              <button key={v} onClick={() => setSelectedVibe(v)}
-                className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
-                  selectedVibe === v ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}>
-                {v}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Suggested Cards */}
-        <div className="space-y-3">
-          {recommendations.map((rec, i) => (
-            <div key={i} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 hover:border-indigo-300 transition-all">
-              <div className="flex items-center justify-between">
-                <h4 className="text-[14px] font-extrabold text-slate-900">{rec.title}</h4>
-                <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full">
-                  {rec.score}
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-600 leading-relaxed bg-white p-2.5 rounded-xl border border-slate-100">
-                ⭐ <strong>AI Review Summary:</strong> {rec.reviewsSummary}
-              </p>
-              <div className="flex items-center justify-between text-[11px] pt-1">
-                <span className="text-slate-400">Best Season: <strong className="text-slate-700">{rec.bestMonths}</strong> · Est: <strong className="text-slate-700">{rec.estBudget}</strong></span>
-                <button onClick={() => onAddDestination(rec.title)}
-                  className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold">
-                  + Add to Wishlist
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-end pt-2 border-t border-slate-100">
-          <button onClick={onClose} className="px-5 py-2 rounded-xl bg-slate-900 text-white font-bold text-[12px]">
-            Close AI Concierge
+        {/* Tab Switcher */}
+        <div className="flex items-center bg-slate-100 p-1 rounded-2xl text-[12px] font-bold flex-shrink-0">
+          <button
+            onClick={() => setActiveTab('concierge')}
+            className={`flex-1 py-1.5 rounded-xl transition-all cursor-pointer ${
+              activeTab === 'concierge' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            🏛️ Rome Concierge & Tips
+          </button>
+          <button
+            onClick={() => setActiveTab('explore')}
+            className={`flex-1 py-1.5 rounded-xl transition-all cursor-pointer ${
+              activeTab === 'explore' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            🏝️ Explore Destinations
           </button>
         </div>
+
+        {/* Tab 1: Concierge & Q&A */}
+        {activeTab === 'concierge' && (
+          <div className="flex-1 flex flex-col min-h-0 space-y-3 overflow-hidden">
+            {/* Quick Prompt Pills */}
+            <div className="flex flex-wrap gap-1.5 flex-shrink-0">
+              {quickPrompts.map((p, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSendMessage(p)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-600 text-[10px] font-semibold transition-colors cursor-pointer"
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+
+            {/* Chat History */}
+            <div className="flex-1 overflow-y-auto space-y-2.5 p-3 rounded-2xl bg-slate-50 border border-slate-100 min-h-[220px]">
+              {chatMessages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[85%] p-3 rounded-2xl text-[12px] leading-relaxed ${
+                      msg.role === 'user'
+                        ? 'bg-blue-600 text-white rounded-br-xs font-medium'
+                        : 'bg-white text-slate-800 border border-slate-200/80 rounded-bl-xs shadow-2xs'
+                    }`}
+                  >
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Chat Input */}
+            <div className="flex items-center gap-2 flex-shrink-0 pt-1">
+              <input
+                type="text"
+                placeholder="Ask about Rome tickets, restaurants, routes, tips..."
+                value={chatInput}
+                onChange={e => setChatInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
+                className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[12px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              />
+              <button
+                onClick={() => handleSendMessage()}
+                className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Tab 2: Explore Destinations */}
+        {activeTab === 'explore' && (
+          <div className="flex-1 overflow-y-auto space-y-3.5 pr-1">
+            {/* Vibe Selector */}
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wide block">
+                Filter Inspiration by Vibe
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {['Coastal & Warm', 'Cultural & Historic', 'Adventure & Aurora'].map(v => (
+                  <button
+                    key={v}
+                    onClick={() => setSelectedVibe(v)}
+                    className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
+                      selectedVibe === v ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Destination cards */}
+            <div className="space-y-3">
+              {recommendations.map((rec, i) => (
+                <div key={i} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 hover:border-indigo-300 transition-all">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-[13px] font-extrabold text-slate-900">{rec.title}</h4>
+                    <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full">
+                      {rec.score}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-relaxed bg-white p-2.5 rounded-xl border border-slate-100">
+                    ⭐ <strong>AI Summary:</strong> {rec.reviewsSummary}
+                  </p>
+                  <div className="flex items-center justify-between text-[11px] pt-1">
+                    <span className="text-slate-400">
+                      Season: <strong className="text-slate-700">{rec.bestMonths}</strong> · Est: <strong className="text-slate-700">{rec.estBudget}</strong>
+                    </span>
+                    <button
+                      onClick={() => onAddDestination(rec.title)}
+                      className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold cursor-pointer"
+                    >
+                      + Save to Wishlist
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="flex justify-end pt-2 border-t border-slate-100 flex-shrink-0">
+          <button
+            onClick={onClose}
+            className="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[12px] cursor-pointer"
+          >
+            Close
+          </button>
+        </div>
+
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
-import { Screen, ItineraryItem, ExpenseItem, BookingItem, VoteItem, WantToGoItem, SquadMember } from './types'
+import { Screen, Trip, ItineraryItem, ExpenseItem, BookingItem, VoteItem, WantToGoItem, SquadMember } from './types'
 import {
+  INITIAL_TRIPS,
   INITIAL_MEMBERS,
   INITIAL_ITINERARY,
   INITIAL_EXPENSES,
@@ -34,18 +35,93 @@ import BudgetView from './pages/BudgetView'
 import BookingsView from './pages/BookingsView'
 import GroupHubView from './pages/GroupHubView'
 
+interface TripData {
+  squad: SquadMember[]
+  itinerary: Record<string, ItineraryItem[]>
+  expenses: ExpenseItem[]
+  bookings: BookingItem[]
+  votes: VoteItem[]
+  wantToGo: WantToGoItem[]
+  packing: Record<string, { id: string; item: string; checked: boolean }[]>
+  totalBudgetEUR: number
+}
+
+const INITIAL_TRIP_DATA_MAP: Record<string, TripData> = {
+  'trip-rome': {
+    squad: INITIAL_MEMBERS,
+    itinerary: INITIAL_ITINERARY,
+    expenses: INITIAL_EXPENSES,
+    bookings: INITIAL_BOOKINGS,
+    votes: INITIAL_VOTES,
+    wantToGo: INITIAL_WANT_TO_GO,
+    packing: INITIAL_PACKING,
+    totalBudgetEUR: 8000
+  },
+  'trip-kl': {
+    squad: [
+      {
+        id: 'm1',
+        name: 'Sarah Chen',
+        initials: 'SC',
+        role: 'Trip Lead & Organizer',
+        grad: 'from-violet-500 to-blue-600',
+        online: true,
+        accessibility: {
+          mobility: 'Standard transit',
+          dietary: 'No restrictions'
+        }
+      }
+    ],
+    itinerary: {
+      day1: [],
+      day2: [],
+      day3: [],
+      day4: [],
+      day5: [],
+      day6: [],
+      day7: []
+    },
+    expenses: [],
+    bookings: [],
+    votes: [],
+    wantToGo: [],
+    packing: {},
+    totalBudgetEUR: 5000
+  }
+}
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('dashboard')
   
-  // State for dynamic lists
-  const [squad] = useState<SquadMember[]>(INITIAL_MEMBERS)
-  const [itinerary, setItinerary] = useState<Record<string, ItineraryItem[]>>(INITIAL_ITINERARY)
+  // State for trips
+  const [trips] = useState<Trip[]>(INITIAL_TRIPS)
+  const [currentTripId, setCurrentTripId] = useState<string>('trip-rome')
+  const currentTrip = useMemo(() => trips.find(t => t.id === currentTripId) || trips[0], [trips, currentTripId])
+
+  // Multi-trip data state
+  const [tripDataMap, setTripDataMap] = useState<Record<string, TripData>>(INITIAL_TRIP_DATA_MAP)
+
+  const activeTripData: TripData = tripDataMap[currentTripId] || {
+    squad: [],
+    itinerary: { day1: [] },
+    expenses: [],
+    bookings: [],
+    votes: [],
+    wantToGo: [],
+    packing: {},
+    totalBudgetEUR: 5000
+  }
+
+  const squad = activeTripData.squad
+  const itinerary = activeTripData.itinerary
+  const expenses = activeTripData.expenses
+  const bookings = activeTripData.bookings
+  const votes = activeTripData.votes
+  const wantToGo = activeTripData.wantToGo
+  const packing = activeTripData.packing
+  const totalBudgetEUR = activeTripData.totalBudgetEUR || 5000
+
   const [selectedDay, setSelectedDay] = useState<string>('day1')
-  const [expenses, setExpenses] = useState<ExpenseItem[]>(INITIAL_EXPENSES)
-  const [bookings, setBookings] = useState<BookingItem[]>(INITIAL_BOOKINGS)
-  const [votes, setVotes] = useState<VoteItem[]>(INITIAL_VOTES)
-  const [wantToGo, setWantToGo] = useState<WantToGoItem[]>(INITIAL_WANT_TO_GO)
-  const [packing, setPacking] = useState(INITIAL_PACKING)
   
   // Quick tools & Modals state
   const [homeCurrency, setHomeCurrency] = useState<string>('USD')
@@ -76,16 +152,16 @@ export default function App() {
     return expenses.reduce((acc, curr) => acc + curr.amountEUR, 0)
   }, [expenses])
 
-  const totalBudgetEUR = 8000
-  const budgetPercentage = Math.min(100, Math.round((totalSpentEUR / totalBudgetEUR) * 100))
+  const budgetPercentage = totalBudgetEUR > 0 ? Math.min(100, Math.round((totalSpentEUR / totalBudgetEUR) * 100)) : 0
 
   // Calculate debt settlements dynamically based on expenses
   const settlements = useMemo(() => {
+    if (expenses.length === 0) return []
     const balances: Record<string, number> = {}
     squad.forEach(m => { balances[m.name] = 0 })
 
     expenses.forEach(exp => {
-      const splitCount = exp.splitWith.length || squad.length
+      const splitCount = exp.splitWith.length || squad.length || 1
       const perPerson = exp.amountEUR / splitCount
       balances[exp.paidBy] = (balances[exp.paidBy] || 0) + exp.amountEUR
       exp.splitWith.forEach(name => {
@@ -119,21 +195,40 @@ export default function App() {
     return transfers
   }, [expenses, squad])
 
+  // ── Helper to update active trip data ────────────────────────────────────
+
+  const updateCurrentTripData = (updater: (prev: TripData) => Partial<TripData>) => {
+    setTripDataMap(prevMap => {
+      const currentData = prevMap[currentTripId] || INITIAL_TRIP_DATA_MAP['trip-kl']
+      return {
+        ...prevMap,
+        [currentTripId]: {
+          ...currentData,
+          ...updater(currentData)
+        }
+      }
+    })
+  }
+
   // ── Handlers for Adding & Deleting across lists ──────────────────────────
 
   // Itinerary Handlers
   const deleteItineraryItem = (day: string, id: string) => {
-    setItinerary(prev => ({
-      ...prev,
-      [day]: (prev[day] || []).filter(item => item.id !== id)
+    updateCurrentTripData(prev => ({
+      itinerary: {
+        ...prev.itinerary,
+        [day]: (prev.itinerary[day] || []).filter(item => item.id !== id)
+      }
     }))
   }
 
   const addItineraryItem = (newItem: Omit<ItineraryItem, 'id'>) => {
     const id = 'it_' + Date.now()
-    setItinerary(prev => ({
-      ...prev,
-      [newItem.day]: [...(prev[newItem.day] || []), { ...newItem, id }]
+    updateCurrentTripData(prev => ({
+      itinerary: {
+        ...prev.itinerary,
+        [newItem.day]: [...(prev.itinerary[newItem.day] || []), { ...newItem, id }]
+      }
     }))
     setShowAddItineraryModal(false)
   }
@@ -146,24 +241,28 @@ export default function App() {
       endTime: '17:30',
       name: alt.name + ' (Plan B Indoor Alternative)',
       emoji: alt.emoji,
-      loc: 'Central Rome Indoor Venue',
+      loc: `${currentTrip.destination} Indoor Venue`,
       note: 'Swapped into itinerary to stay dry during rain forecast.',
       cost: alt.price,
-      travelTime: '10 min metro',
+      travelTime: '10 min transit',
       travelMode: 'metro',
       pin: { x: 45, y: 40 },
       colorClass: 'bg-amber-50 border-amber-300'
     }
-    setItinerary(prev => ({
-      ...prev,
-      [selectedDay]: [...(prev[selectedDay] || []), newStop]
+    updateCurrentTripData(prev => ({
+      itinerary: {
+        ...prev.itinerary,
+        [selectedDay]: [...(prev.itinerary[selectedDay] || []), newStop]
+      }
     }))
     setPlanBOpen(false)
   }
 
   // Expense Handlers
   const deleteExpense = (id: string) => {
-    setExpenses(prev => prev.filter(e => e.id !== id))
+    updateCurrentTripData(prev => ({
+      expenses: prev.expenses.filter(e => e.id !== id)
+    }))
   }
 
   const addExpense = (newExp: Omit<ExpenseItem, 'id' | 'badgeClass'>) => {
@@ -180,49 +279,61 @@ export default function App() {
       id: 'exp_' + Date.now(),
       badgeClass: badgeMap[newExp.category] || 'bg-blue-50 text-blue-700'
     }
-    setExpenses(prev => [item, ...prev])
+    updateCurrentTripData(prev => ({
+      expenses: [item, ...prev.expenses]
+    }))
     setShowAddExpenseModal(false)
   }
 
   // Booking Handlers
   const deleteBooking = (id: string) => {
-    setBookings(prev => prev.filter(b => b.id !== id))
+    updateCurrentTripData(prev => ({
+      bookings: prev.bookings.filter(b => b.id !== id)
+    }))
   }
 
   const toggleBookingStatus = (id: string) => {
-    setBookings(prev => prev.map(b => b.id === id ? { ...b, status: b.status === 'booked' ? 'pending' : 'booked' } : b))
+    updateCurrentTripData(prev => ({
+      bookings: prev.bookings.map(b => b.id === id ? { ...b, status: b.status === 'booked' ? 'pending' : 'booked' } : b)
+    }))
   }
 
   const addBooking = (newB: Omit<BookingItem, 'id'>) => {
     const item: BookingItem = { ...newB, id: 'b_' + Date.now() }
-    setBookings(prev => [item, ...prev])
+    updateCurrentTripData(prev => ({
+      bookings: [item, ...prev.bookings]
+    }))
     setShowAddBookingModal(false)
   }
 
   // Voting Handlers
   const handleVote = (id: string, type: 'up' | 'down') => {
-    setVotes(prev => prev.map(v => {
-      if (v.id !== id) return v
-      if (v.myVote === type) {
+    updateCurrentTripData(prev => ({
+      votes: prev.votes.map(v => {
+        if (v.id !== id) return v
+        if (v.myVote === type) {
+          return {
+            ...v,
+            up: type === 'up' ? v.up - 1 : v.up,
+            down: type === 'down' ? v.down - 1 : v.down,
+            myVote: null
+          }
+        }
+        const prevVote = v.myVote
         return {
           ...v,
-          up: type === 'up' ? v.up - 1 : v.up,
-          down: type === 'down' ? v.down - 1 : v.down,
-          myVote: null
+          up: type === 'up' ? v.up + 1 : prevVote === 'up' ? v.up - 1 : v.up,
+          down: type === 'down' ? v.down + 1 : prevVote === 'down' ? v.down - 1 : v.down,
+          myVote: type
         }
-      }
-      const prevVote = v.myVote
-      return {
-        ...v,
-        up: type === 'up' ? v.up + 1 : prevVote === 'up' ? v.up - 1 : v.up,
-        down: type === 'down' ? v.down + 1 : prevVote === 'down' ? v.down - 1 : v.down,
-        myVote: type
-      }
+      })
     }))
   }
 
   const deleteVote = (id: string) => {
-    setVotes(prev => prev.filter(v => v.id !== id))
+    updateCurrentTripData(prev => ({
+      votes: prev.votes.filter(v => v.id !== id)
+    }))
   }
 
   const addVoteItem = (newItem: Omit<VoteItem, 'id' | 'up' | 'down' | 'myVote'>) => {
@@ -233,55 +344,68 @@ export default function App() {
       down: 0,
       myVote: 'up'
     }
-    setVotes(prev => [item, ...prev])
+    updateCurrentTripData(prev => ({
+      votes: [item, ...prev.votes]
+    }))
     setShowAddVoteModal(false)
   }
 
   // Want-to-Go Handlers
   const deleteWantToGo = (id: string) => {
-    setWantToGo(prev => prev.filter(w => w.id !== id))
+    updateCurrentTripData(prev => ({
+      wantToGo: prev.wantToGo.filter(w => w.id !== id)
+    }))
   }
 
   const addWantToGo = (newItem: Omit<WantToGoItem, 'id'>) => {
     const item: WantToGoItem = { ...newItem, id: 'w_' + Date.now() }
-    setWantToGo(prev => [item, ...prev])
+    updateCurrentTripData(prev => ({
+      wantToGo: [item, ...prev.wantToGo]
+    }))
     setShowAddWantToGoModal(false)
   }
 
   // Packing List Handlers
   const togglePackItem = (cat: string, itemId: string) => {
-    setPacking(prev => ({
-      ...prev,
-      [cat]: (prev[cat] || []).map(i => i.id === itemId ? { ...i, checked: !i.checked } : i)
+    updateCurrentTripData(prev => ({
+      packing: {
+        ...prev.packing,
+        [cat]: (prev.packing[cat] || []).map(i => i.id === itemId ? { ...i, checked: !i.checked } : i)
+      }
     }))
   }
 
   const deletePackItem = (cat: string, itemId: string) => {
-    setPacking(prev => ({
-      ...prev,
-      [cat]: (prev[cat] || []).filter(i => i.id !== itemId)
+    updateCurrentTripData(prev => ({
+      packing: {
+        ...prev.packing,
+        [cat]: (prev.packing[cat] || []).filter(i => i.id !== itemId)
+      }
     }))
   }
 
   const addPackItem = (cat: string, itemText: string) => {
     if (!itemText.trim()) return
     const newItem = { id: 'p_' + Date.now(), item: itemText.trim(), checked: false }
-    setPacking(prev => ({
-      ...prev,
-      [cat]: [...(prev[cat] || []), newItem]
+    updateCurrentTripData(prev => ({
+      packing: {
+        ...prev.packing,
+        [cat]: [...(prev.packing[cat] || []), newItem]
+      }
     }))
   }
 
   const deletePackingCategory = (cat: string) => {
-    setPacking(prev => {
-      const next = { ...prev }
+    updateCurrentTripData(prev => {
+      const next = { ...prev.packing }
       delete next[cat]
-      return next
+      return { packing: next }
     })
   }
 
   const generateAIPackingList = () => {
-    setPacking({
+    const isRome = currentTrip.destination === 'Rome'
+    const generated = isRome ? {
       '👔 Smart Climate Clothing (28°C Rome)': [
         { id: 'gen1', item: 'Lightweight linen shirts & breathable tops × 6', checked: true },
         { id: 'gen2', item: 'Ultra-cushion walking trainers (18k steps/day)', checked: true },
@@ -305,7 +429,19 @@ export default function App() {
         { id: 'gen14', item: 'International EU health insurance card', checked: true },
         { id: 'gen15', item: 'Emergency contacts & accessibility card in Italian', checked: true },
       ]
-    })
+    } : {
+      '👔 Tropical Climate Clothing (31°C KL)': [
+        { id: 'gen_kl1', item: 'Breathable moisture-wicking shirts × 5', checked: true },
+        { id: 'gen_kl2', item: 'Comfortable mall & temple walking shoes', checked: true },
+        { id: 'gen_kl3', item: 'Light cardigan / jacket for air-conditioned venues', checked: false },
+      ],
+      '🧴 Tropical Wellness & Umbrella': [
+        { id: 'gen_kl4', item: 'Compact travel umbrella (for afternoon tropical showers)', checked: true },
+        { id: 'gen_kl5', item: 'Hydration bottle & SPF sunscreen', checked: true },
+      ]
+    }
+
+    updateCurrentTripData(() => ({ packing: generated }))
   }
 
   const bookedCount = bookings.filter(b => b.status === 'booked').length
@@ -322,6 +458,12 @@ export default function App() {
         bookedCount={bookedCount}
         totalBookings={bookings.length}
         squadCount={squad.length}
+        trips={trips}
+        currentTripId={currentTripId}
+        onSelectTrip={(id) => {
+          setCurrentTripId(id)
+          setSelectedDay('day1')
+        }}
         homeCurrency={homeCurrency}
         setHomeCurrency={setHomeCurrency}
         onOpenCalculator={() => setShowCurrencyModal(true)}
@@ -351,6 +493,7 @@ export default function App() {
               budgetPercentage={budgetPercentage}
               homeCurrency={homeCurrency}
               convertEURTo={convertEURTo}
+              currentTrip={currentTrip}
               onNavigate={setScreen}
               onOpenAI={() => setAiAssistantOpen(true)}
               onOpenReceipt={(receiptName) => setReceiptViewerModal(receiptName)}

@@ -1,4 +1,33 @@
-import { SquadMember, ItineraryItem, ExpenseItem, BookingItem, VoteItem, WantToGoItem, WeatherDay } from '../types'
+import { Trip, SquadMember, ItineraryItem, ExpenseItem, BookingItem, VoteItem, WantToGoItem, WeatherDay } from '../types'
+
+export const INITIAL_TRIPS: Trip[] = [
+  {
+    id: 'trip-rome',
+    destination: 'Rome',
+    country: 'Italy',
+    flag: '🇮🇹',
+    dates: 'Sep 12–18, 2026',
+    daysCount: 7,
+    daysUntil: 13,
+    status: 'Confirmed',
+    imageUrl: 'https://images.unsplash.com/photo-1552076170-3b3f5c8fe1c6?w=120&h=120&fit=crop&auto=format',
+    travelers: ['Sarah', 'Marco', 'Elena', 'Leo'],
+    progress: 85
+  },
+  {
+    id: 'trip-kl',
+    destination: 'Kuala Lumpur',
+    country: 'Malaysia',
+    flag: '🇲🇾',
+    dates: 'Nov 04–10, 2026',
+    daysCount: 7,
+    daysUntil: 65,
+    status: 'Planning',
+    imageUrl: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=120&h=120&fit=crop&auto=format',
+    travelers: ['Sarah', 'Marco', 'Aisha', 'Dev'],
+    progress: 40
+  }
+]
 
 export const INITIAL_MEMBERS: SquadMember[] = [
   {

@@ -1,4 +1,4 @@
-import { IconSearch, IconSparkles, IconShare, IconBell } from './icons'
+import { IconSearch, IconBot, IconShare, IconBell } from './icons'
 
 export default function TopHeader({
   onOpenAI,
@@ -10,56 +10,70 @@ export default function TopHeader({
   onNavigateToBookings: () => void
 }) {
   return (
-    <header className="h-[62px] bg-white border-b border-slate-100 flex items-center px-8 gap-4 flex-shrink-0 z-10 select-none">
+    <header className="h-[62px] bg-white border-b border-slate-100 flex items-center px-6 md:px-8 gap-3 md:gap-4 flex-shrink-0 z-10 select-none">
       {/* Quick Search */}
-      <div className="flex-1 max-w-[380px] relative">
+      <div className="flex-1 max-w-[340px] relative hidden sm:block">
         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
           <IconSearch size={15} />
         </div>
-        <input type="text" placeholder="Search activities, flights, receipts, voting..."
-          className="w-full pl-9 pr-4 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-[13px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
+        <input
+          type="text"
+          placeholder="Search itinerary, bookings, squad..."
+          className="w-full pl-9 pr-4 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-[13px] text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+        />
       </div>
 
       {/* Right Header Widgets */}
-      <div className="flex items-center gap-3 ml-auto">
-        {/* Multi-day Weather Widget */}
-        <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-amber-50/80 border border-amber-200/80 text-amber-900">
-          <span className="text-lg">☀️</span>
+      <div className="flex items-center gap-2.5 md:gap-3 ml-auto">
+        {/* Weather Indicator */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50/80 border border-amber-200/60 text-amber-900">
+          <span className="text-base">☀️</span>
           <div>
-            <div className="text-[12px] font-bold leading-tight flex items-center gap-1">
-              <span>28°C</span> <span className="text-[10px] text-amber-700 font-medium">Rome, Italy</span>
+            <div className="text-[11px] font-bold leading-tight flex items-center gap-1">
+              <span>28°C</span> <span className="text-[10px] text-amber-700 font-medium">Rome</span>
             </div>
-            <div className="text-[10px] text-amber-600 font-medium">Sunny · High UV 7 · Dry</div>
+            <div className="text-[9px] text-amber-600 font-medium hidden md:block">Sunny · High UV 7</div>
           </div>
         </div>
 
-        {/* Live Pricing Alert */}
-        <button onClick={onNavigateToBookings}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 transition-colors">
+        {/* Live Fare Alert */}
+        <button
+          onClick={onNavigateToBookings}
+          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 transition-colors cursor-pointer"
+        >
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <div className="text-left">
             <div className="text-[11px] font-bold leading-tight">Live Pricing Active</div>
-            <div className="text-[9px] text-emerald-600">Flights dropped 9.4%</div>
+            <div className="text-[9px] text-emerald-600">Flights down 9.4%</div>
           </div>
         </button>
 
-        {/* AI Assistant Button */}
-        <button onClick={onOpenAI}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[12px] font-bold shadow-sm shadow-blue-500/20 hover:opacity-95 transition-all">
-          <IconSparkles size={13} color="white" />
-          <span>AI Trip Concierge</span>
+        {/* Unified Ask Wayfarer AI Button */}
+        <button
+          onClick={onOpenAI}
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white text-[12px] font-bold shadow-xs hover:opacity-95 transition-all cursor-pointer"
+        >
+          <IconBot size={14} color="white" />
+          <span>Ask Wayfarer</span>
         </button>
 
         {/* Share Trip */}
-        <button onClick={onOpenShare}
-          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors" title="Share Trip">
-          <IconShare size={16} />
+        <button
+          onClick={onOpenShare}
+          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
+          title="Share Trip & Accessibility"
+        >
+          <IconShare size={15} />
         </button>
 
         {/* Notification Bell */}
-        <div className="relative p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 cursor-pointer">
-          <IconBell size={16} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+        <div
+          onClick={onNavigateToBookings}
+          className="relative p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 cursor-pointer transition-colors"
+          title="1 pending notification"
+        >
+          <IconBell size={15} />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-500 rounded-full" />
         </div>
       </div>
     </header>

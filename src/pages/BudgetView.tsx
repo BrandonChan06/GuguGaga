@@ -189,43 +189,59 @@ export default function BudgetView({
           </div>
         </div>
 
-        <div className="divide-y divide-slate-50 overflow-x-auto">
-          {filteredExpenses.map(exp => (
-            <div key={exp.id} className="p-4 px-6 flex items-center justify-between gap-4 hover:bg-slate-50/70 transition-colors">
-              <div className="flex items-center gap-3 min-w-0">
-                <span className="text-xl w-8 text-center flex-shrink-0">{exp.emoji}</span>
-                <div className="min-w-0">
-                  <div className="text-[13px] font-bold text-slate-900 truncate">{exp.name}</div>
-                  <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
-                    <span>{exp.date}</span>
-                    <span>· Paid by <strong className="text-slate-700">{exp.paidBy}</strong></span>
-                    <span>· Split with {exp.splitWith.length} travelers</span>
+        {filteredExpenses.length > 0 ? (
+          <div className="divide-y divide-slate-50 overflow-x-auto">
+            {filteredExpenses.map(exp => (
+              <div key={exp.id} className="p-4 px-6 flex items-center justify-between gap-4 hover:bg-slate-50/70 transition-colors">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-xl w-8 text-center flex-shrink-0">{exp.emoji}</span>
+                  <div className="min-w-0">
+                    <div className="text-[13px] font-bold text-slate-900 truncate">{exp.name}</div>
+                    <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
+                      <span>{exp.date}</span>
+                      <span>· Paid by <strong className="text-slate-700">{exp.paidBy}</strong></span>
+                      <span>· Split with {exp.splitWith.length} travelers</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-4 flex-shrink-0">
-                {exp.receiptName && (
-                  <button onClick={() => onOpenReceipt(exp.receiptName!)}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-bold transition-colors">
-                    📄 {exp.receiptName}
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  {exp.receiptName && (
+                    <button onClick={() => onOpenReceipt(exp.receiptName!)}
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-bold transition-colors cursor-pointer">
+                      📄 {exp.receiptName}
+                    </button>
+                  )}
+
+                  <div className="text-right">
+                    <div className="text-[14px] font-black text-slate-900">€{exp.amountEUR.toLocaleString()}</div>
+                    <div className="text-[10px] text-slate-400">≈ {convertEURTo(exp.amountEUR)}</div>
+                  </div>
+
+                  <button onClick={() => onDeleteExpense(exp.id)}
+                    title="Delete Expense"
+                    className="p-1.5 rounded-lg text-slate-300 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer">
+                    <IconTrash size={14} />
                   </button>
-                )}
-
-                <div className="text-right">
-                  <div className="text-[14px] font-black text-slate-900">€{exp.amountEUR.toLocaleString()}</div>
-                  <div className="text-[10px] text-slate-400">≈ {convertEURTo(exp.amountEUR)}</div>
                 </div>
-
-                <button onClick={() => onDeleteExpense(exp.id)}
-                  title="Delete Expense"
-                  className="p-1.5 rounded-lg text-slate-300 hover:text-red-600 hover:bg-red-50 transition-colors">
-                  <IconTrash size={14} />
-                </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-12 text-center text-slate-400 space-y-2">
+            <div className="text-2xl">💳</div>
+            <p className="text-[14px] font-bold text-slate-700">No expenses recorded yet</p>
+            <p className="text-[12px] text-slate-500 max-w-[340px] mx-auto">
+              Track flights, hotels, dining, and shared activities with automated squad debt settlements.
+            </p>
+            <button
+              onClick={onOpenAddExpense}
+              className="inline-block mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+            >
+              + Add First Expense
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

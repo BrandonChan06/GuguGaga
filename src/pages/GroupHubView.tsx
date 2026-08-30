@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { SquadMember, VoteItem, WantToGoItem } from '../types'
-import { IconShare, IconPlus, IconTrash, IconThumbUp, IconThumbDown, IconCheck, IconSparkles } from '../components/icons'
+import { IconShare, IconPlus, IconTrash, IconThumbUp, IconThumbDown, IconCheck, IconBot } from '../components/icons'
 
 export default function GroupHubView({
   squad,
@@ -42,12 +42,12 @@ export default function GroupHubView({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-[22px] font-extrabold text-slate-900 tracking-tight">Group Hub, AI Voting & Packing</h1>
+          <h1 className="text-[22px] font-extrabold text-slate-900 tracking-tight">Group Hub, Voting & Packing</h1>
           <p className="text-[12px] text-slate-500 mt-0.5">Collaborate in real-time, vote on activities, share want-to-go wishlists & auto-generate packing checklists</p>
         </div>
         <div className="flex items-center gap-2.5">
           <button onClick={onOpenShare}
-            className="flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[12px] font-bold rounded-xl transition-all">
+            className="flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[12px] font-bold rounded-xl transition-all cursor-pointer">
             <IconShare size={14} /> Invite & Share
           </button>
         </div>
@@ -59,7 +59,7 @@ export default function GroupHubView({
           <h3 className="text-[12px] font-bold text-slate-400 uppercase tracking-wide">
             Travel Squad Profiles ({squad.length} Travelers)
           </h3>
-          <button onClick={onOpenShare} className="text-[11px] text-blue-600 font-bold hover:underline">
+          <button onClick={onOpenShare} className="text-[11px] text-blue-600 font-bold hover:underline cursor-pointer">
             Manage Access & Profiles →
           </button>
         </div>
@@ -106,7 +106,7 @@ export default function GroupHubView({
               <p className="text-[11px] text-slate-400">Vote to prioritize experiences for final itinerary</p>
             </div>
             <button onClick={onOpenAddVote}
-              className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-[11px] font-bold rounded-xl hover:bg-blue-700 transition-colors">
+              className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-[11px] font-bold rounded-xl hover:bg-blue-700 transition-colors cursor-pointer">
               <IconPlus size={12} color="white" /> Add Option
             </button>
           </div>
@@ -131,7 +131,7 @@ export default function GroupHubView({
 
                     <div className="flex items-center gap-1.5 flex-shrink-0">
                       <button onClick={() => onVote(v.id, 'up')}
-                        className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all ${
+                        className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
                           v.myVote === 'up'
                             ? 'bg-emerald-600 text-white shadow-xs'
                             : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
@@ -140,7 +140,7 @@ export default function GroupHubView({
                       </button>
 
                       <button onClick={() => onVote(v.id, 'down')}
-                        className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all ${
+                        className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
                           v.myVote === 'down'
                             ? 'bg-rose-600 text-white shadow-xs'
                             : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
@@ -149,7 +149,7 @@ export default function GroupHubView({
                       </button>
 
                       <button onClick={() => onDeleteVote(v.id)} title="Delete Option"
-                        className="p-1 text-slate-300 hover:text-red-500 ml-1">
+                        className="p-1 text-slate-300 hover:text-red-500 ml-1 cursor-pointer">
                         <IconTrash size={13} />
                       </button>
                     </div>
@@ -173,7 +173,7 @@ export default function GroupHubView({
               <p className="text-[11px] text-slate-400">Personal must-sees, foods, and photo spots submitted by travelers</p>
             </div>
             <button onClick={onOpenAddWantToGo}
-              className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 text-white text-[11px] font-bold rounded-xl hover:bg-indigo-700 transition-colors">
+              className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 text-white text-[11px] font-bold rounded-xl hover:bg-indigo-700 transition-colors cursor-pointer">
               <IconPlus size={12} color="white" /> Add Wishlist
             </button>
           </div>
@@ -198,7 +198,7 @@ export default function GroupHubView({
                 </div>
 
                 <button onClick={() => onDeleteWantToGo(w.id)} title="Delete item"
-                  className="p-1 text-slate-300 hover:text-red-500 flex-shrink-0">
+                  className="p-1 text-slate-300 hover:text-red-500 flex-shrink-0 cursor-pointer">
                   <IconTrash size={13} />
                 </button>
               </div>
@@ -213,15 +213,15 @@ export default function GroupHubView({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-lg">✨</span>
+              <IconBot size={18} color="#4F46E5" />
               <h3 className="text-[15px] font-bold text-slate-900">AI Climate-Aware Packing List</h3>
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">Optimized for Rome 28°C sunny weather & Vatican dress codes</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Optimized for travel weather & local cultural guidelines</p>
           </div>
 
           <button onClick={onGenerateAIPacking}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-[12px] font-bold border border-indigo-200/80 transition-colors">
-            <IconSparkles size={14} /> Regenerate with AI
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-[12px] font-bold border border-indigo-200/80 transition-colors cursor-pointer">
+            <IconBot size={14} /> Regenerate with AI
           </button>
         </div>
 
