@@ -16,6 +16,14 @@ import {
 import Sidebar from './components/Sidebar'
 import TopHeader from './components/TopHeader'
 import {
+  IconGrid,
+  IconMap,
+  IconCalendar,
+  IconWallet,
+  IconTicket,
+  IconUsers
+} from './components/icons'
+import {
   ModalAddItinerary,
   ModalAddExpense,
   ModalAddBooking,
@@ -92,6 +100,7 @@ const INITIAL_TRIP_DATA_MAP: Record<string, TripData> = {
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('dashboard')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   // State for trips
   const [trips] = useState<Trip[]>(INITIAL_TRIPS)
@@ -449,7 +458,7 @@ export default function App() {
   return (
     <div className="flex h-screen bg-[#F8FAFC] text-slate-800 overflow-hidden" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
       
-      {/* ── Left Sidebar ───────────────────────────────────────────────────── */}
+      {/* ── Left Sidebar (Desktop + Mobile Slide-over Drawer) ───────────── */}
       <Sidebar
         active={screen}
         onNavigate={setScreen}
@@ -469,20 +478,23 @@ export default function App() {
         onOpenCalculator={() => setShowCurrencyModal(true)}
         onOpenShare={() => setShareModalOpen(true)}
         onOpenAI={() => setAiAssistantOpen(true)}
+        isMobileOpen={mobileMenuOpen}
+        onCloseMobile={() => setMobileMenuOpen(false)}
       />
 
       {/* ── Main Content Area ───────────────────────────────────────────────── */}
-      <div className="flex flex-col flex-1 overflow-hidden min-w-0">
+      <div className="flex flex-col flex-1 overflow-hidden min-w-0 relative">
         
         {/* Global Top Header */}
         <TopHeader
           onOpenAI={() => setAiAssistantOpen(true)}
           onOpenShare={() => setShareModalOpen(true)}
           onNavigateToBookings={() => setScreen('bookings')}
+          onToggleMobileMenu={() => setMobileMenuOpen(prev => !prev)}
         />
 
         {/* Active Screen View */}
-        <main className={`flex-1 ${screen === 'itinerary' ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+        <main className={`flex-1 pb-20 lg:pb-0 ${screen === 'itinerary' ? 'overflow-hidden' : 'overflow-y-auto'}`}>
           {screen === 'dashboard' && (
             <DashboardView
               itinerary={itinerary}
@@ -570,6 +582,39 @@ export default function App() {
             />
           )}
         </main>
+
+        {/* ── Mobile Bottom Tab Bar (Below lg) ─────────────────────────────── */}
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around shadow-lg">
+          {[
+            { id: 'dashboard', label: 'Home', Icon: IconGrid },
+            { id: 'itinerary', label: 'Plan', Icon: IconMap, badge: (itinerary[selectedDay] || []).length || undefined },
+            { id: 'calendar', label: 'Calendar', Icon: IconCalendar },
+            { id: 'budget', label: 'Budget', Icon: IconWallet },
+            { id: 'bookings', label: 'Bookings', Icon: IconTicket, badge: bookings.length > 0 ? `${bookedCount}/${bookings.length}` : undefined },
+            { id: 'group', label: 'Squad', Icon: IconUsers },
+          ].map(({ id, label, Icon, badge }) => {
+            const isActive = screen === id
+            return (
+              <button
+                key={id}
+                onClick={() => setScreen(id as Screen)}
+                className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all relative flex-1 ${
+                  isActive ? 'text-blue-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                <div className="relative">
+                  <Icon size={18} color={isActive ? '#2563EB' : '#64748B'} />
+                  {badge && (
+                    <span className="absolute -top-1.5 -right-2.5 px-1 min-w-[14px] h-[14px] rounded-full bg-blue-600 text-white text-[8px] font-black flex items-center justify-center leading-none">
+                      {badge}
+                    </span>
+                  )}
+                </div>
+                <span className="text-[10px] mt-0.5 font-medium leading-none truncate">{label}</span>
+              </button>
+            )
+          })}
+        </nav>
       </div>
 
       {/* ── Modals ────────────────────────────────────────────────────────── */}

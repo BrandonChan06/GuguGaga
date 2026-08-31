@@ -22,8 +22,8 @@ export function ModalAddItinerary({
   const [travelTime, setTravelTime] = useState('15 min walk')
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[480px] w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-[480px] w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="text-[16px] font-extrabold text-slate-900">Add Itinerary Activity ({day.toUpperCase()})</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><IconClose size={18} /></button>
@@ -123,8 +123,8 @@ export function ModalAddExpense({
   }
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[460px] w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-[460px] w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="text-[16px] font-extrabold text-slate-900">Add New Expense</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><IconClose size={18} /></button>
@@ -227,8 +227,8 @@ export function ModalAddBooking({
   const [notes, setNotes] = useState('')
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[460px] w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-[460px] w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="text-[16px] font-extrabold text-slate-900">Add Booking / Pass</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><IconClose size={18} /></button>
@@ -326,8 +326,8 @@ export function ModalAddVote({
   const [category, setCategory] = useState('Tour')
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[420px] w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-[420px] w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="text-[16px] font-extrabold text-slate-900">Suggest Activity for Voting</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><IconClose size={18} /></button>
@@ -396,8 +396,8 @@ export function ModalAddWantToGo({
   const [priority, setPriority] = useState<WantToGoItem['priority']>('High')
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[420px] w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-[420px] w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="text-[16px] font-extrabold text-slate-900">Add Want-To-Go Wishlist Item</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><IconClose size={18} /></button>
@@ -484,8 +484,8 @@ export function ModalCurrencyConverter({
   const converted = (parsed / fromRate) * toRate
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[420px] w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-[420px] w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="text-[16px] font-extrabold text-slate-900">Live Currency Calculator</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><IconClose size={18} /></button>
@@ -860,8 +860,8 @@ export function ModalReceiptViewer({
   onClose: () => void
 }) {
   return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-[500px] w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-[500px] w-full p-4 sm:p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
             <span className="text-lg">📄</span>

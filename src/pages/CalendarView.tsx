@@ -25,31 +25,39 @@ export default function CalendarView({
   ]
 
   return (
-    <div className="p-8 max-w-[1240px] mx-auto space-y-6 animate-fadeIn">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 md:p-8 max-w-[1240px] mx-auto space-y-6 animate-fadeIn select-none">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-[22px] font-extrabold text-slate-900 tracking-tight">Trip Calendar & Master Schedule</h1>
-          <p className="text-[12px] text-slate-500 mt-0.5">Rome 2026 · Integrated flight departures, hotel stays & daily activities</p>
+          <h1 className="text-[20px] sm:text-[22px] font-extrabold text-slate-900 tracking-tight">
+            Trip Calendar & Master Schedule
+          </h1>
+          <p className="text-[11px] sm:text-[12px] text-slate-500 mt-0.5">
+            Integrated flight milestones, hotel stays & daily scheduled stops
+          </p>
         </div>
-        <button onClick={onOpenAddModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-[12px] font-bold rounded-xl shadow-sm shadow-blue-500/20 hover:bg-blue-700 transition-colors">
+        <button
+          onClick={onOpenAddModal}
+          className="self-start sm:self-auto flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-[12px] font-bold rounded-xl shadow-xs hover:bg-blue-700 transition-colors cursor-pointer"
+        >
           <IconPlus size={13} color="white" /> Add Event / Stop
         </button>
       </div>
 
       {/* Multi-Day Calendar Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3">
         {dates.map((d) => {
           const isSelected = selectedDay === d.dayKey
           const dayActivities = itinerary[d.dayKey] || []
           return (
-            <div key={d.dayKey}
+            <div
+              key={d.dayKey}
               onClick={() => onSelectDay(d.dayKey)}
-              className={`rounded-2xl border p-4 flex flex-col justify-between min-h-[360px] cursor-pointer transition-all ${
+              className={`rounded-2xl border p-4 flex flex-col justify-between min-h-[280px] sm:min-h-[340px] cursor-pointer transition-all ${
                 isSelected
                   ? 'bg-blue-50/50 border-blue-500 shadow-md ring-2 ring-blue-500/20'
                   : 'bg-white border-slate-100 hover:border-slate-300 hover:shadow-sm'
-              }`}>
+              }`}
+            >
               <div>
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
@@ -108,16 +116,16 @@ export default function CalendarView({
       </div>
 
       {/* 7-Day Weather Forecast Banner */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
-        <h3 className="text-[13px] font-bold text-slate-900 uppercase tracking-wide">
+      <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-100 shadow-sm space-y-3 sm:space-y-4">
+        <h3 className="text-[12px] sm:text-[13px] font-bold text-slate-900 uppercase tracking-wide">
           7-Day Meteorological Forecast & Outdoor Index
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 sm:gap-3">
           {WEATHER_FORECAST.map((w, i) => (
-            <div key={i} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-center space-y-1">
-              <div className="text-[11px] font-bold text-slate-500">{w.day}</div>
-              <div className="text-2xl my-1">{w.icon}</div>
-              <div className="text-[13px] font-black text-slate-900">{w.temp}</div>
+            <div key={i} className="p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-center space-y-1">
+              <div className="text-[10px] sm:text-[11px] font-bold text-slate-500">{w.day}</div>
+              <div className="text-xl sm:text-2xl my-1">{w.icon}</div>
+              <div className="text-[12px] sm:text-[13px] font-black text-slate-900">{w.temp}</div>
               <div className="text-[10px] text-slate-400">{w.condition}</div>
               <div className="text-[9px] font-bold text-blue-600 bg-blue-50 py-0.5 rounded">Rain: {w.rain}</div>
             </div>

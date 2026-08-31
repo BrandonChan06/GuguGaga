@@ -11,7 +11,8 @@ import {
   IconShare,
   IconChevronDown,
   IconCheck,
-  IconBot
+  IconBot,
+  IconClose
 } from './icons'
 
 export default function Sidebar({
@@ -26,7 +27,9 @@ export default function Sidebar({
   currentTripId = 'trip-rome',
   onSelectTrip,
   onOpenShare,
-  onOpenAI
+  onOpenAI,
+  isMobileOpen = false,
+  onCloseMobile
 }: {
   active: Screen
   onNavigate: (s: Screen) => void
@@ -43,6 +46,8 @@ export default function Sidebar({
   onOpenCalculator?: () => void
   onOpenShare: () => void
   onOpenAI: () => void
+  isMobileOpen?: boolean
+  onCloseMobile?: () => void
 }) {
   const [tripDropdownOpen, setTripDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -68,10 +73,14 @@ export default function Sidebar({
     { id: 'group', label: 'Group', Icon: IconUsers, badge: `${squadCount} active` },
   ] as const
 
-  return (
-    <aside className="w-[250px] flex-shrink-0 bg-white border-r border-slate-100 flex flex-col h-screen sticky top-0 z-20 select-none">
-      
-      {/* Brand */}
+  const handleNavClick = (screenId: Screen) => {
+    onNavigate(screenId)
+    if (onCloseMobile) onCloseMobile()
+  }
+
+  const sidebarContent = (
+    <div className="flex flex-col h-full bg-white select-none">
+      {/* Brand & Mobile Close */}
       <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-500/20">
@@ -82,13 +91,30 @@ export default function Sidebar({
             <span className="text-[10px] text-blue-600 font-semibold uppercase tracking-wider">Travel Dashboard</span>
           </div>
         </div>
-        <button
-          onClick={onOpenAI}
-          title="Ask Wayfarer AI"
-          className="w-7 h-7 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition-colors cursor-pointer"
-        >
-          <IconBot size={15} />
-        </button>
+
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => {
+              onOpenAI()
+              if (onCloseMobile) onCloseMobile()
+            }}
+            title="Ask Wayfarer AI"
+            className="w-7 h-7 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition-colors cursor-pointer"
+          >
+            <IconBot size={15} />
+          </button>
+
+          {/* Close button for mobile drawer */}
+          {onCloseMobile && (
+            <button
+              onClick={onCloseMobile}
+              className="lg:hidden w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors cursor-pointer"
+              title="Close menu"
+            >
+              <IconClose size={15} />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Upcoming Trips Switcher */}
@@ -175,7 +201,7 @@ export default function Sidebar({
           return (
             <button
               key={id}
-              onClick={() => onNavigate(id as Screen)}
+              onClick={() => handleNavClick(id as Screen)}
               className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-150 cursor-pointer ${
                 isActive
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 font-bold'
@@ -199,7 +225,10 @@ export default function Sidebar({
       {/* Ask Wayfarer AI Quick Launch Banner */}
       <div className="px-3 py-2 border-t border-slate-100">
         <button
-          onClick={onOpenAI}
+          onClick={() => {
+            onOpenAI()
+            if (onCloseMobile) onCloseMobile()
+          }}
           className="w-full p-2.5 rounded-2xl bg-gradient-to-br from-indigo-50/80 to-blue-50/80 hover:from-indigo-100/80 hover:to-blue-100/80 border border-indigo-100 transition-all text-left flex items-center gap-2.5 cursor-pointer group"
         >
           <div className="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
@@ -227,7 +256,10 @@ export default function Sidebar({
             </div>
           </div>
           <button
-            onClick={onOpenShare}
+            onClick={() => {
+              onOpenShare()
+              if (onCloseMobile) onCloseMobile()
+            }}
             title="Trip Settings & Accessibility"
             className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer"
           >
@@ -236,7 +268,10 @@ export default function Sidebar({
         </div>
 
         <button
-          onClick={onOpenShare}
+          onClick={() => {
+            onOpenShare()
+            if (onCloseMobile) onCloseMobile()
+          }}
           className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-violet-50/70 border border-slate-100 text-left transition-colors cursor-pointer"
         >
           <span className="text-[10px] text-slate-600 font-semibold flex items-center gap-1.5">
@@ -245,6 +280,31 @@ export default function Sidebar({
           <span className="text-[9px] font-bold text-violet-600 uppercase">View</span>
         </button>
       </div>
-    </aside>
+    </div>
+  )
+
+  return (
+    <>
+      {/* Desktop Sidebar (lg and above) */}
+      <aside className="hidden lg:flex w-[260px] flex-shrink-0 border-r border-slate-100 flex-col h-screen sticky top-0 z-20">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Drawer (Below lg) */}
+      {isMobileOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop overlay */}
+          <div
+            onClick={onCloseMobile}
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity animate-fadeIn"
+          />
+
+          {/* Sliding Drawer Container */}
+          <div className="relative w-[280px] max-w-[85vw] h-full shadow-2xl z-10 animate-slideRight">
+            {sidebarContent}
+          </div>
+        </div>
+      )}
+    </>
   )
 }
