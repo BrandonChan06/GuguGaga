@@ -102,27 +102,27 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 * **Pros:** Built directly into the runtime without adding external package bloat, keeping data flow predictable and easy to trace.  
 * **Constraint:** No third-party state managers like Redux or Zustand are installed. All shared app data must be stored in the root view and passed down to screens through component properties.
 
-**Backend & Database (Your Pick):** Supabase (PostgreSQL)  
+**Backend & Database:** Supabase (PostgreSQL)  
 * **Pros:** Gives you a powerful relational database out of the box with built-in user authentication, file storage, and instant real-time data sync for group planning.  
 * **Cons:** Complex relational schemas can take more time to design upfront compared to document databases, and unused free projects are paused after inactivity.
 
-**AI & LLM Service (Your Pick):** Gemini API (Google AI Studio)  
+**AI & LLM Service:** Gemini API (Google AI Studio)  
 * **Pros:** Offers a generous free tier, huge context limits to read entire trip plans at once, and fast processing speeds.  
 * **Cons:** Rate limits on the free tier can be tight during peak times, and safety filters can occasionally block harmless travel queries.
 
 **APIs and Services Used**
 
-**API Mapping Service (Alternative):** Mapbox  
+**API Mapping Service:** Mapbox  
 * **Pros:** Generous free tier with highly customizable, beautiful map themes that seamlessly match modern app designs.  
 * **Cons:** Its place search and opening hour data are not as rich or reliable as Google Maps.
 
-**Weather Service (Your Pick):** OpenWeatherMap API  
+**Weather Service:** OpenWeatherMap API  
 * **Pros:** Industry standard with dependable hourly forecasts and weather alerts worldwide.  
 * **Cons:** Hourly and multi-day historical data often require a paid subscription.
 
-**Currency Service (Your Pick):** Open Exchange Rates  
-* **Pros:** Highly accurate and reliable market rates across virtually every global currency.  
-* **Cons:** The free tier only updates rates once per hour and limits monthly request volume.
+**Currency Service:** Frankfurter API  
+* **Pros:** Completely free, easy to use, requires no API key, and supports over 200 currencies with reliable daily exchange rates.
+* **Cons:** Exchange rates are updated daily instead of in real time, and rates may not update on weekends or public holidays.
 
 **Hosting Platform:** Vercel  
 * **Pros:** Effortless Git integration, automated preview deployments for every update, and blazing-fast global edge delivery.  
