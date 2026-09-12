@@ -48,16 +48,20 @@ Wayfarer is an all-in-one collaborative squad travel concierge that transforms c
 
 ## 2.2 Ideation Boards
 
-![Mind Map — Group Travel Pain Points Explosion](mindmap.png)  
+<img width="452" height="253" alt="image" src="https://github.com/user-attachments/assets/ec2bc718-3104-41a3-a77d-3eee5e58cc9e" />
+ 
 Our opening brainstorm mapped group travel frustrations into pacing conflicts, planning chaos, money stress, and logistics nightmares to define the MVP scope.
 
-![5 Whys — Root Cause Drill-Down](5whys.png)  
+<img width="452" height="251" alt="image" src="https://github.com/user-attachments/assets/82899198-d9d2-41c9-9aca-fc43af7d30d8" />
+
 This root-cause analysis revealed that group trip frustration stems from squads being forced to move as one unit without a safe, anxiety-free way to split up and auto-reunite.
 
-![User Flow — Split & Reconnect Journey](userflow.png)  
+<img width="452" height="252" alt="image" src="https://github.com/user-attachments/assets/f1ed7e57-076e-4bbe-ab84-f36d100c8cdc" />
+
 Flowchart detailing how a squad branches into Explorer and Chill tracks after lunch and reconvenes at a Sunset Reconnect point with a 2-minute sync margin.
 
-![MoSCoW Affinity Board — Feature Prioritization](moscow.png)  
+<img width="452" height="251" alt="image" src="https://github.com/user-attachments/assets/1097d536-24f3-431a-a69f-a4fae0eeb3fc" />
+
 Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-Have, and Dropped buckets to preserve engineering feasibility.
 
 ## 2.3 Mentor Consultation
