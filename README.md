@@ -68,7 +68,7 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 
 | Date | Mentor | Feedback Received | What Was Changed |
 | :--- | :--- | :--- | :--- |
-| [Date] | [Mentor Name] | [Feedback Received] | [What Was Changed] |
+| 12 September | Mah Qing Fung | [Feedback Received] | [What Was Changed] |
 
 ---
 
@@ -109,9 +109,3 @@ Client Layer (React 19, Tailwind CSS v4, SVG Map Engine, React Context State) <-
 * Accessibility Traveler Profiles: Member profiles capturing mobility constraints and dietary restrictions to guide routing.
 * AI Concierge & Smart Packing Checklist: Conversational travel assistant and climate-tailored packing checklist generator.
 * Multi-Trip Switcher & Booking Repository: Multi-trip workspace switching and centralized reservation voucher storage.
-
-### Phase 2: Post-MVP Scope (Out of Scope for Initial Build)
-* Continuous Real-Time GPS Tracking: Excluded to prevent battery drain and preserve privacy; solved via planned ETA synchronization instead.
-* In-App Direct Payment Gateway: Excluded to avoid banking/escrow compliance overhead; settlements occur externally via users' preferred banking apps.
-* Direct OTA Booking Checkout Engine: Excluded to bypass complex airline/hotel GDS API contracting; users import existing booking codes.
-* Native AR Camera Navigation: Excluded in favor of universal, cross-platform web SVG mapping accessible on any browser.
