@@ -111,6 +111,7 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 * **Cons:** Rate limits on the free tier can be tight during peak times, and safety filters can occasionally block harmless travel queries.
 
 **APIs and Services Used**
+
 **API Mapping Service (Alternative):** Mapbox  
 * **Pros:** Generous free tier with highly customizable, beautiful map themes that seamlessly match modern app designs.  
 * **Cons:** Its place search and opening hour data are not as rich or reliable as Google Maps.
