@@ -1,9 +1,9 @@
-Wayfarer by Gugu Gaga
+# Wayfarer by Gugu Gaga
 Team: LIM PIN GUAN, BRANDON CHAN EN HAO, TAN YU QING, NG KAH LOK
 Problem Statement: Travel Planner
-Video Presentation: [Unlisted Youtube Link]
+<br>Video Presentation: [Unlisted Youtube Link]</br>
 Presentation Slides: [Public Link]
-Prototype: https://63791706c734491ba9f6-strong-signal-xbny5qeq.projects.builder.my/
+<br>Prototype: https://63791706c734491ba9f6-strong-signal-xbny5qeq.projects.builder.my/</br>
 
 # 1. Project Overview
 
@@ -68,13 +68,8 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 
 ---
 
-# 3. Design & Prototype
 
-UI Prototype: [ Public Link ]
-
----
-
-# 4. What Makes It Different
+# 3. What Makes It Different
 
 * "Split & Reconnect" Squad Vibe Compromise Engine: Traditional itinerary planners assume a monolithic group moving in lockstep. Wayfarer introduces an automated branching timeline where members split into Explorer (strenuous ascents, high step counts) and Chill (step-free, shaded cafes) tracks, then automatically calculates walking and transit buffers to reunite both squads at a shared evening anchor spot at the exact same time.
 * Plan B Weather-Triggered Contingency Swapper: Instead of travelers manually scrambling when rain hits, Wayfarer pairs live weather forecasts directly with activity indoor/outdoor metadata, serving a 1-tap curated indoor swap that preserves the schedule and geographic proximity.
@@ -84,7 +79,7 @@ UI Prototype: [ Public Link ]
 
 ---
 
-# 5. Technical Architecture & Feasibility
+# 4. Technical Architecture & Feasibility
 
 ## Tech Stack
 * Frontend Framework: React 19 + TypeScript. Provides sub-millisecond concurrent UI rendering and strict type safety across nested itinerary models. Constraint: React 19 peer-dependency warnings with older component libraries; mitigated by building native React 19 components with custom hooks.
