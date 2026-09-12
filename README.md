@@ -86,14 +86,46 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 # 4. Technical Architecture & Feasibility
 
 ## Tech Stack
-* Frontend Framework: React 19 + TypeScript. Provides sub-millisecond concurrent UI rendering and strict type safety across nested itinerary models. Constraint: React 19 peer-dependency warnings with older component libraries; mitigated by building native React 19 components with custom hooks.
-* Build Tooling: Vite 8. Delivers sub-50ms Hot Module Replacement and optimized chunking. Constraint: ESM-only ecosystem; mitigated by using standard native ECMAScript modules.
-* Styling: Tailwind CSS v4. Zero-runtime overhead with rapid utility class compilation. Constraint: deprecation of legacy config files; mitigated by configuring theme variables directly inside native CSS directives.
-* State Management: React Context + LocalStorage Persistence. Unidirectional, offline-resilient data flow without third-party state bloat. Constraint: browser storage limits; mitigated through normalized JSON structures preparing for cloud database migration.
-* Backend & Database: Supabase (PostgreSQL + PostgREST + Edge Functions). Provides relational data integrity, JSONB support for accessibility preferences, and Row Level Security for squad data isolation. Constraint: inactive tier pausing and connection limits; mitigated with scheduled heartbeat checks and client debouncing.
-* AI & LLM Services: OpenRouter / Claude 3.5 Sonnet / GPT-4o-mini. Powers context-aware recommendations, etiquette tips, and climate-aware packing checklists. Constraint: API rate limits and token latency; mitigated via client-side caching of repetitive prompts and curated fallback responses.
-* External APIs: OpenWeather API & Open Exchange Rates. Provides rain forecasting for Plan B triggers and live exchange rates across 8 currencies. Constraint: public API rate limits; mitigated by caching weather responses for 60 minutes and updating exchange rates on session start.
-* Hosting: Vercel / Cloudflare Pages. Provides automated Git deployments, edge CDN distribution, and automatic SSL. Constraint: serverless function cold starts; mitigated by pre-rendering static assets.
+**Frontend framework:** React 19 with TypeScript 5.7  
+* **Pros:** Offers the latest performance optimizations, seamless modern component rendering, and strict type safety that catches errors before running the app.  
+* **Constraint:** Components must be default exports. All markup elements and brackets must be strictly closed. Apostrophes inside single-quoted strings must be avoided or escaped to prevent compilation errors.
+
+**Build tooling:** Vite 8 with the React Vite plugin
+* **Pros:** Delivers near-instant local server start-up, ultra-fast hot module reloading when editing files, and rapid code formatting.  
+* **Constraint:** The development server is pre-managed and runs on a dedicated port in the background. Path shortcuts are tied to the source directory, and preconfigured workspace build plugins must remain intact.
+
+**Styling:** Tailwind CSS v4 with the Tailwind Vite plugin  
+* **Pros:** Generates tiny CSS bundles with zero manual CSS build steps, providing modern styling rules and fast responsive layout creation.  
+* **Constraint:** Does not use traditional styling configuration or preprocessor files. Custom fonts and theme variables must be placed directly at the top of the main global stylesheet.
+
+**State management:** Native React 19 Hooks (`useState` and `useMemo`)  
+* **Pros:** Built directly into the runtime without adding external package bloat, keeping data flow predictable and easy to trace.  
+* **Constraint:** No third-party state managers like Redux or Zustand are installed. All shared app data must be stored in the root view and passed down to screens through component properties.
+
+**Backend & Database (Your Pick):** Supabase (PostgreSQL)  
+* **Pros:** Gives you a powerful relational database out of the box with built-in user authentication, file storage, and instant real-time data sync for group planning.  
+* **Cons:** Complex relational schemas can take more time to design upfront compared to document databases, and unused free projects are paused after inactivity.
+
+**AI & LLM Service (Your Pick):** Gemini API (Google AI Studio)  
+* **Pros:** Offers a generous free tier, huge context limits to read entire trip plans at once, and fast processing speeds.  
+* **Cons:** Rate limits on the free tier can be tight during peak times, and safety filters can occasionally block harmless travel queries.
+
+**APIs and Services Used**
+**API Mapping Service (Alternative):** Mapbox  
+* **Pros:** Generous free tier with highly customizable, beautiful map themes that seamlessly match modern app designs.  
+* **Cons:** Its place search and opening hour data are not as rich or reliable as Google Maps.
+
+**Weather Service (Your Pick):** OpenWeatherMap API  
+* **Pros:** Industry standard with dependable hourly forecasts and weather alerts worldwide.  
+* **Cons:** Hourly and multi-day historical data often require a paid subscription.
+
+**Currency Service (Your Pick):** Open Exchange Rates  
+* **Pros:** Highly accurate and reliable market rates across virtually every global currency.  
+* **Cons:** The free tier only updates rates once per hour and limits monthly request volume.
+
+**Hosting Platform:** Vercel  
+* **Pros:** Effortless Git integration, automated preview deployments for every update, and blazing-fast global edge delivery.  
+* **Cons:** Bandwidth limits on the free tier can be reached quickly if you host heavy image files directly instead of through cloud storage.
 
 ## Build Plan & Scope
 
