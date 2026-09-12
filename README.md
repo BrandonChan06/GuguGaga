@@ -3,6 +3,7 @@ Team: LIM PIN GUAN, BRANDON CHAN EN HAO, TAN YU QING, NG KAH LOK
 Problem Statement: Travel Planner
 Video Presentation: [Unlisted Youtube Link]
 Presentation Slides: [Public Link]
+Prototype: https://63791706c734491ba9f6-strong-signal-xbny5qeq.projects.builder.my/
 
 # 1. Project Overview
 
