@@ -95,15 +95,11 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 * External APIs: OpenWeather API & Open Exchange Rates. Provides rain forecasting for Plan B triggers and live exchange rates across 8 currencies. Constraint: public API rate limits; mitigated by caching weather responses for 60 minutes and updating exchange rates on session start.
 * Hosting: Vercel / Cloudflare Pages. Provides automated Git deployments, edge CDN distribution, and automatic SSL. Constraint: serverless function cold starts; mitigated by pre-rendering static assets.
 
-## System Architecture Diagram
-Client Layer (React 19, Tailwind CSS v4, SVG Map Engine, React Context State) <---> Edge Gateway (Vercel / Cloudflare with Auth & Rate Throttling) <---> Cloud Backend (Supabase PostgreSQL with Row-Level Security, Edge Functions) & Third-Party APIs (OpenWeather, Open Exchange Rates, OpenRouter AI).
-
 ## Build Plan & Scope
 
-### Phase 1: MVP Core Scope (Built & Demonstrated)
 * "Split & Reconnect" Engine: Parallel timeline branching (Explorer vs. Chill tracks), member assignment chips, and automated Sunset Reconnect convergence scheduling.
 * Day-by-Day Itinerary Planner: Daily navigation with time-stamped cards and 1-tap Plan B weather alternative swaps.
-* Interactive Spatial SVG Walking Map: Vector map plotting daily stops, walking routes, and convergence beacons.
+* Interactive Spatial SVG Walking Map: Map plotting daily stops, walking routes, and convergence beacons.
 * Multi-Currency Budget Tracker: Categorized expense logging, live conversion across 8 currencies, and a debt minimization settlement graph.
 * Democratic Wishlist Board: Wishlist cards with interactive upvoting and downvoting tallies.
 * Accessibility Traveler Profiles: Member profiles capturing mobility constraints and dietary restrictions to guide routing.
