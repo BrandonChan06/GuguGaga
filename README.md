@@ -112,8 +112,6 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 
 **APIs and Services Used**
 
----
-
 **API Mapping Service (Alternative):** Mapbox  
 * **Pros:** Generous free tier with highly customizable, beautiful map themes that seamlessly match modern app designs.  
 * **Cons:** Its place search and opening hour data are not as rich or reliable as Google Maps.
