@@ -1,6 +1,6 @@
 import { Screen, Trip, ItineraryItem, ExpenseItem, BookingItem } from '../types'
 import { INITIAL_TRIPS } from '../data/mockData'
-import { IconMap, IconWallet, IconTicket, IconCalendar, IconBot, IconChevronRight, IconCheck } from '../components/icons'
+import { IconMap, IconWallet, IconTicket, IconCalendar, IconBot, IconChevronRight, IconCheck, IconPlus } from '../components/icons'
 
 export default function DashboardView({
   itinerary,
@@ -291,8 +291,19 @@ export default function DashboardView({
         >
           <div className="flex items-center justify-between text-[#8C8478]">
             <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#7D766D]">Budget & Spending</span>
-            <div className="w-8 h-8 rounded-xl bg-[#FAF8F5] border border-[#EAE5DC] text-[#182B49] flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs">
-              <IconWallet size={16} />
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={(e) => e.stopPropagation()}
+                title="Add New Expenditure"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-[#FDF6ED] hover:bg-[#F9ECE0] border border-[#F2DECE] text-[#C25934] text-[10px] font-bold transition-all shadow-xs cursor-pointer"
+              >
+                <IconPlus size={11} color="#C25934" />
+                <span>Add Expenditure</span>
+              </button>
+              <div className="w-8 h-8 rounded-xl bg-[#FAF8F5] border border-[#EAE5DC] text-[#182B49] flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs">
+                <IconWallet size={16} />
+              </div>
             </div>
           </div>
           
