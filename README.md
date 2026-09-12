@@ -1,6 +1,6 @@
 # Wayfarer by Gugu Gaga
 Team: LIM PIN GUAN, BRANDON CHAN EN HAO, TAN YU QING, NG KAH LOK
-Problem Statement: Travel Planner
+<br>Problem Statement: Travel Planner
 <br>Video Presentation: [Unlisted Youtube Link]</br>
 Presentation Slides: [Public Link]
 <br>Prototype: https://63791706c734491ba9f6-strong-signal-xbny5qeq.projects.builder.my/</br>
