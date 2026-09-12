@@ -456,7 +456,7 @@ export default function App() {
   const bookedCount = bookings.filter(b => b.status === 'booked').length
 
   return (
-    <div className="flex h-screen bg-[#F8FAFC] text-slate-800 overflow-hidden" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
+    <div className="flex h-screen bg-[#FAF8F5] text-[#262320] overflow-hidden">
       
       {/* ── Left Sidebar (Desktop + Mobile Slide-over Drawer) ───────────── */}
       <Sidebar
@@ -584,7 +584,7 @@ export default function App() {
         </main>
 
         {/* ── Mobile Bottom Tab Bar (Below lg) ─────────────────────────────── */}
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around shadow-lg">
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#FAF8F5]/95 backdrop-blur-md border-t border-[#EAE5DC] px-2 py-1.5 flex items-center justify-around shadow-[0_-4px_16px_rgba(38,35,32,0.05)]">
           {[
             { id: 'dashboard', label: 'Home', Icon: IconGrid },
             { id: 'itinerary', label: 'Plan', Icon: IconMap, badge: (itinerary[selectedDay] || []).length || undefined },
@@ -599,13 +599,13 @@ export default function App() {
                 key={id}
                 onClick={() => setScreen(id as Screen)}
                 className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all relative flex-1 ${
-                  isActive ? 'text-blue-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-800'
+                  isActive ? 'text-[#182B49] font-bold scale-105' : 'text-[#7D766D] hover:text-[#262320]'
                 }`}
               >
                 <div className="relative">
-                  <Icon size={18} color={isActive ? '#2563EB' : '#64748B'} />
+                  <Icon size={18} color={isActive ? '#182B49' : '#8C857B'} />
                   {badge && (
-                    <span className="absolute -top-1.5 -right-2.5 px-1 min-w-[14px] h-[14px] rounded-full bg-blue-600 text-white text-[8px] font-black flex items-center justify-center leading-none">
+                    <span className="absolute -top-1.5 -right-2.5 px-1 min-w-[14px] h-[14px] rounded-full bg-[#C25934] text-white text-[8px] font-black flex items-center justify-center leading-none shadow-xs">
                       {badge}
                     </span>
                   )}

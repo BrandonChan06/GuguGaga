@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ItineraryItem } from '../types'
-import { IconPlus, IconTrash, IconClock, IconClose, IconMap } from '../components/icons'
+import { IconPlus, IconTrash, IconClose } from '../components/icons'
 import InteractiveSVGMap from '../components/InteractiveSVGMap'
 
 function calculateDuration(start: string, end: string): string {
@@ -44,31 +44,31 @@ export default function ItineraryView({
     <div className="h-full flex flex-col overflow-hidden animate-fadeIn select-none">
       
       {/* Sub-Header / Day Selector & Mobile View Switcher */}
-      <div className="px-4 sm:px-6 lg:px-8 py-3 bg-white border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-3 flex-shrink-0">
+      <div className="px-4 sm:px-6 lg:px-8 py-3 bg-[#FAF8F5] border-b border-[#EAE5DC] flex flex-col md:flex-row md:items-center justify-between gap-3 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-[16px] sm:text-[18px] font-extrabold text-slate-900 tracking-tight">
-              Interactive Itinerary & Map
+            <h1 className="text-[17px] sm:text-[20px] font-bold text-[#1C1917] tracking-tight font-display">
+              Expedition Itinerary & Map
             </h1>
-            <p className="text-[11px] text-slate-400 truncate">
-              Auto transit times, stay durations & walking map
+            <p className="text-[11px] text-[#7D766D] truncate">
+              Field walking routes, stay durations & cultural landmarks
             </p>
           </div>
 
           {/* Mobile view segmented switch (Timeline vs Map) */}
-          <div className="flex lg:hidden items-center bg-slate-100 p-1 rounded-xl text-[11px] font-bold">
+          <div className="flex lg:hidden items-center bg-[#EFE9E0] p-1 rounded-xl text-[11px] font-bold border border-[#E2DBD0]">
             <button
               onClick={() => setMobileTab('timeline')}
               className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                mobileTab === 'timeline' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500'
+                mobileTab === 'timeline' ? 'bg-white text-[#182B49] shadow-xs' : 'text-[#7D766D]'
               }`}
             >
-              📋 List
+              📋 Timeline
             </button>
             <button
               onClick={() => setMobileTab('map')}
               className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                mobileTab === 'map' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-500'
+                mobileTab === 'map' ? 'bg-white text-[#182B49] shadow-xs' : 'text-[#7D766D]'
               }`}
             >
               🗺️ Map
@@ -78,15 +78,15 @@ export default function ItineraryView({
 
         {/* Days Horizontal Scroll Bar & Add Stop */}
         <div className="flex items-center justify-between md:justify-end gap-2 overflow-x-auto">
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl overflow-x-auto flex-nowrap flex-shrink-0">
+          <div className="flex items-center gap-1 bg-[#EFE9E0] p-1 rounded-xl overflow-x-auto flex-nowrap flex-shrink-0 border border-[#E2DBD0]">
             {daysList.map((d, i) => (
               <button
                 key={d}
                 onClick={() => { setSelectedDay(d); setPlanBOpen(false) }}
-                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-[12px] font-bold transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-[12px] font-bold transition-all whitespace-nowrap cursor-pointer ${
                   selectedDay === d
-                    ? 'bg-white text-blue-600 shadow-xs'
-                    : 'text-slate-500 hover:text-slate-800'
+                    ? 'bg-[#182B49] text-white shadow-xs'
+                    : 'text-[#5C554B] hover:text-[#1C1917]'
                 }`}
               >
                 Day {i + 1}
@@ -96,7 +96,7 @@ export default function ItineraryView({
 
           <button
             onClick={onOpenAddModal}
-            className="flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-[11px] sm:text-[12px] font-bold shadow-xs transition-all whitespace-nowrap cursor-pointer flex-shrink-0"
+            className="flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-xl bg-[#C25934] hover:bg-[#A94A28] text-white text-[11px] sm:text-[12px] font-bold shadow-xs transition-all whitespace-nowrap cursor-pointer flex-shrink-0"
           >
             <IconPlus size={13} color="white" />
             <span>Add Stop</span>
@@ -107,15 +107,15 @@ export default function ItineraryView({
       {/* Main Split Body: Timeline + Plan B + Map */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden p-3 sm:p-5 gap-4 min-h-0">
         
-        {/* Left: Interactive Timeline (Visible on desktop OR when mobileTab is 'timeline') */}
-        <div className={`w-full lg:w-[420px] flex-shrink-0 flex flex-col overflow-hidden relative bg-white rounded-3xl border border-slate-100 shadow-sm p-4 ${
+        {/* Left: Interactive Timeline */}
+        <div className={`w-full lg:w-[420px] flex-shrink-0 flex flex-col overflow-hidden relative bg-white rounded-3xl border border-[#EAE5DC] shadow-[0_2px_12px_rgba(38,35,32,0.03)] p-4 ${
           mobileTab === 'map' ? 'hidden lg:flex' : 'flex flex-1'
         }`}>
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-2 flex-shrink-0">
-            <span className="text-[12px] font-bold text-slate-700 uppercase tracking-wide">
-              Timeline · {currentStops.length} Activities
+          <div className="flex items-center justify-between pb-3 border-b border-[#EAE5DC] mb-2 flex-shrink-0">
+            <span className="text-[12px] font-bold text-[#1C1917] uppercase tracking-wider font-display">
+              Field Schedule · {currentStops.length} Activities
             </span>
-            <span className="text-[11px] text-slate-400 font-medium">
+            <span className="text-[11px] text-[#7D766D] font-medium">
               {currentStops[0]?.time || '09:00'} → {currentStops[currentStops.length - 1]?.endTime || '21:00'}
             </span>
           </div>
@@ -123,12 +123,12 @@ export default function ItineraryView({
           {/* Activity items list */}
           <div className="flex-1 overflow-y-auto pr-1 space-y-3 pb-24">
             {currentStops.length === 0 ? (
-              <div className="text-center py-16 text-slate-400 space-y-2">
-                <p className="text-[14px] font-semibold text-slate-700">No activities planned for this day yet.</p>
-                <p className="text-[12px] text-slate-400">Click below to add visits, meals, and landmark stops.</p>
+              <div className="text-center py-16 text-[#8C8478] space-y-2">
+                <p className="text-[14px] font-semibold text-[#1C1917] font-display">No activities planned for this day yet.</p>
+                <p className="text-[12px] text-[#7D766D]">Select below to add visits, meals, and landmark stops.</p>
                 <button
                   onClick={onOpenAddModal}
-                  className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+                  className="mt-2 px-4 py-2 bg-[#182B49] hover:bg-[#122138] text-white text-[12px] font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
                 >
                   + Add First Stop
                 </button>
@@ -138,26 +138,26 @@ export default function ItineraryView({
                 const stayDuration = calculateDuration(item.time, item.endTime)
                 return (
                   <div key={item.id} className="group relative">
-                    <div className={`p-3.5 rounded-2xl border ${item.colorClass} hover:shadow-md transition-all`}>
+                    <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#EAE5DC] hover:border-[#DDD5C7] hover:shadow-[0_4px_16px_rgba(38,35,32,0.04)] transition-all">
                       <div className="flex items-start justify-between gap-2">
                         {/* Time & Duration badge */}
                         <div className="flex-shrink-0">
-                          <span className="text-[12px] font-black text-slate-800 block leading-tight">{item.time}</span>
-                          <span className="text-[10px] text-slate-400 block mt-0.5">to {item.endTime}</span>
-                          <span className="inline-block mt-1 px-1.5 py-0.5 rounded bg-white/80 border border-slate-200/60 text-[9px] font-bold text-slate-600">
+                          <span className="text-[13px] font-bold text-[#1C1917] block leading-tight font-display">{item.time}</span>
+                          <span className="text-[10px] text-[#8C8478] block mt-0.5 font-medium">to {item.endTime}</span>
+                          <span className="inline-block mt-1 px-1.5 py-0.5 rounded-md bg-white border border-[#E0D8CB] text-[9px] font-bold text-[#5C554B]">
                             ⏳ {stayDuration}
                           </span>
                         </div>
 
                         {/* Title & Notes */}
-                        <div className="flex-1 min-w-0 px-2">
+                        <div className="flex-1 min-w-0 px-2.5">
                           <div className="flex items-center gap-1.5">
                             <span className="text-base flex-shrink-0">{item.emoji}</span>
-                            <span className="text-[13px] font-bold text-slate-900 leading-tight truncate">{item.name}</span>
+                            <span className="text-[14px] font-bold text-[#1C1917] leading-tight truncate font-display">{item.name}</span>
                           </div>
-                          <div className="text-[11px] text-slate-500 mt-1 leading-snug">{item.loc}</div>
+                          <div className="text-[11px] text-[#7D766D] mt-1 leading-snug">📍 {item.loc}</div>
                           {item.note && (
-                            <div className="text-[10px] text-slate-600 mt-2 bg-white/80 p-2 rounded-xl border border-slate-100 leading-relaxed">
+                            <div className="text-[11px] text-[#5C554B] mt-2 bg-white p-2.5 rounded-xl border border-[#EAE5DC] leading-relaxed">
                               {item.note}
                             </div>
                           )}
@@ -166,14 +166,14 @@ export default function ItineraryView({
                         {/* Actions */}
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
                           {item.cost && (
-                            <span className="text-[11px] font-extrabold text-slate-900 bg-white/80 px-2 py-0.5 rounded-md border border-slate-200/60">
+                            <span className="text-[11px] font-bold text-[#1C1917] bg-white px-2 py-0.5 rounded-md border border-[#E0D8CB]">
                               {item.cost}
                             </span>
                           )}
                           <button
                             onClick={() => onDeleteItem(selectedDay, item.id)}
                             title="Delete Stop"
-                            className="p-1 rounded-lg text-slate-300 hover:text-red-600 hover:bg-red-50 transition-colors mt-2 cursor-pointer"
+                            className="p-1 rounded-lg text-[#B4ADA1] hover:text-[#C25934] hover:bg-[#FDF6ED] transition-colors mt-2 cursor-pointer"
                           >
                             <IconTrash size={13} />
                           </button>
@@ -183,9 +183,9 @@ export default function ItineraryView({
 
                     {/* Travel Time & Transit Mode indicator to next stop */}
                     {item.travelTime && idx < currentStops.length - 1 && (
-                      <div className="flex items-center gap-2 py-2 px-4 my-0.5 text-[11px] text-slate-400 font-medium">
-                        <div className="w-0.5 h-6 bg-slate-200 mx-2" />
-                        <span className="flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-100 text-slate-600 text-[10px]">
+                      <div className="flex items-center gap-2 py-2 px-4 my-0.5 text-[11px] text-[#8C8478] font-medium">
+                        <div className="w-0.5 h-6 bg-[#DCD5C7] mx-2" />
+                        <span className="flex items-center gap-1.5 bg-[#FAF8F5] px-2.5 py-1 rounded-full border border-[#EAE5DC] text-[#5C554B] text-[10px]">
                           <span>{item.travelMode === 'metro' ? '🚇' : item.travelMode === 'bus' ? '🚌' : '🚶'}</span>
                           <span>{item.travelTime}</span>
                         </span>
@@ -200,29 +200,29 @@ export default function ItineraryView({
           {/* Floating Plan B Smart Alternative Suggestion */}
           <div className="absolute bottom-3 left-3 right-3 z-10">
             {planBOpen ? (
-              <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 shadow-xl space-y-2 animate-fadeIn">
+              <div className="p-4 rounded-2xl bg-[#FDF8F0] border border-[#F2DECE] shadow-xl space-y-2.5 animate-fadeIn">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-amber-900 font-bold text-[12px]">
+                  <div className="flex items-center gap-1.5 text-[#5C2B14] font-bold text-[12px] font-display">
                     <span>🌧️</span>
                     <span>Weather Alert: Afternoon Rain Expected</span>
                   </div>
-                  <button onClick={() => setPlanBOpen(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                  <button onClick={() => setPlanBOpen(false)} className="text-[#8C8478] hover:text-[#262320] cursor-pointer">
                     <IconClose size={13} />
                   </button>
                 </div>
-                <p className="text-[11px] text-amber-800 leading-snug">
+                <p className="text-[11px] text-[#8C4828] leading-relaxed">
                   Swap outdoor Trevi Fountain walk for indoor Capitoline Museum or Pantheon tour to stay dry.
                 </p>
                 <div className="flex items-center gap-2 pt-1">
                   <button
                     onClick={() => onSwapPlanB({ name: 'Capitoline Museum', emoji: '🏛️', time: '15:00', price: '€16' })}
-                    className="flex-1 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] transition-colors cursor-pointer"
+                    className="flex-1 py-1.5 rounded-xl bg-[#C25934] hover:bg-[#A94A28] text-white font-bold text-[11px] transition-colors cursor-pointer shadow-xs"
                   >
                     Swap in Capitoline Museum →
                   </button>
                   <button
                     onClick={() => setPlanBOpen(false)}
-                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-600 text-[11px] font-medium hover:bg-slate-50 cursor-pointer"
+                    className="px-3 py-1.5 rounded-xl bg-white border border-[#DDD5C7] text-[#5C554B] text-[11px] font-medium hover:bg-[#FAF8F5] cursor-pointer"
                   >
                     Keep Original
                   </button>
@@ -231,20 +231,20 @@ export default function ItineraryView({
             ) : (
               <button
                 onClick={() => setPlanBOpen(true)}
-                className="w-full py-2.5 px-4 rounded-2xl bg-slate-900/90 hover:bg-slate-900 text-white text-[11px] font-bold backdrop-blur-md shadow-lg flex items-center justify-between transition-all cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-2xl bg-[#182B49] hover:bg-[#122138] text-white text-[11px] font-bold shadow-lg flex items-center justify-between transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-2">
                   <span>🛡️</span>
-                  <span>Plan B Weather Alternatives Available</span>
+                  <span className="font-display tracking-wide">Plan B Weather Advisory Available</span>
                 </div>
-                <span className="text-amber-300 font-bold">Review →</span>
+                <span className="text-[#FBBF24] font-bold">Review →</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Right: Interactive SVG Map Canvas (Visible on desktop OR when mobileTab is 'map') */}
-        <div className={`flex-1 rounded-3xl overflow-hidden border border-slate-100 shadow-sm relative min-h-[300px] ${
+        {/* Right: Interactive SVG Map Canvas */}
+        <div className={`flex-1 rounded-3xl overflow-hidden border border-[#EAE5DC] shadow-[0_2px_12px_rgba(38,35,32,0.03)] relative min-h-[300px] ${
           mobileTab === 'timeline' ? 'hidden lg:block' : 'block'
         }`}>
           <InteractiveSVGMap stops={currentStops} />
