@@ -68,7 +68,8 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 
 | Date | Mentor | Feedback Received | What Was Changed |
 | :--- | :--- | :--- | :--- |
-| 13/9 | Mentor | [Feedback Received] | [What Was Changed] |
+| 13/9 | Iris Yan | • **Booking feature:** Advised against building actual direct booking because it is too difficult and complex. Suggested keeping it as a document/voucher viewer instead.<br>• **Idea uniqueness:** Pointed out that our ideas were mostly existing features and lacked a special, standout idea to attract the judges.<br>• **Video slides:** Noted that our video had way too much text (~80% text) and needed to be reduced.<br>• **Prototype:** Complimented that our prototype and project were very complete. | • Changed the booking section to only store booking confirmations and vouchers instead of real booking.<br>• Focused on pushing "Split & Reconnect" as our main unique idea to impress the judges.<br>• Cut down the text in our video, showing more UI screenshots and real screen interactions instead of paragraphs. |
+| 13/9 | Looi Wei En | • **Core focus:** Noticed we had too many different ideas without one main idea to focus on.<br>• **Problem statement:** Confirmed that our project fits the problem statement well.<br>• **UI & Onboarding:** Said our UI was clean and not messy, but suggested adding an onboarding flow to guide new users.<br>• **Hero feature:** Mentioned that our "Split & Reconnect" feature was very standout and creative. | • Chose "Split & Reconnect" as our single main feature and focused our pitch around it.<br>• Added an onboarding flow to help first-time users set up their squad preferences easily.<br>• Highlighted Split & Reconnect clearly in our presentation. |
 
 ---
 
