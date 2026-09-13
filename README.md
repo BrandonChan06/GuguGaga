@@ -3,7 +3,7 @@ Team: LIM PIN GUAN, BRANDON CHAN EN HAO, TAN YU QING, NG KAH LOK
 <br>Problem Statement: Travel Planner
 <br>Video Presentation: https://youtu.be/fcK3e_suvSM?si=SquHyY9xq0sFfJZ6</br>
 Presentation Slides: https://canva.link/lz1lu7sm5r82k11
-<br>Prototype: https://wayfarer2.netlify.app/</br>
+<br>Prototype: https://wayfarer26.netlify.app/</br>
 
 # 1. Project Overview
 
