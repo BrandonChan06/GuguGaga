@@ -68,7 +68,7 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 
 | Date | Mentor | Feedback Received | What Was Changed |
 | :--- | :--- | :--- | :--- |
-| 13/9 | Mentor | [Feedback Received] | [What Was Changed] |
+| 13/9 | Mentor | | |
 
 ---
 
