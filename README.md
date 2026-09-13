@@ -11,7 +11,7 @@ Presentation Slides: https://canva.link/lz1lu7sm5r82k11
 Modern group travel planning is paralyzed by fragmented tools, rigid itineraries, and conflicting companion preferences. The primary stakeholders are designated trip leads and squad members who bring differing physical stamina, dietary restrictions, and mobility requirements. While market solutions like Wanderlog map static pins and Splitwise logs retrospective debts, they fall critically short by failing to harmonize real-time logistics with human group dynamics. They cannot dynamically branch itineraries based on individual paces, coordinate step-free and allergy-safe alternatives, or provide automated weather contingencies.
 
 ## Our Solution
-Wayfarer is an all-in-one collaborative squad travel concierge that transforms chaotic group escapes into cohesive, stress-free journeys. By unifying bookings, interactive mapping, multi-currency budgeting, and individual accessibility needs into a single responsive dashboard, it eliminates the need to juggle multiple disconnected travel apps. Its centerpiece innovation, the "Split & Reconnect" Compromise Engine, solves group pacing dilemmas by letting travelers divide into parallel daytime tracks and automatically reuniting them at sunset with zero wait time. Combined with dynamic "Plan B" weather contingencies and smart debt minimization, Wayfarer ensures every member travels on their own terms while keeping the squad united.
+Wayfarer is an all-in-one collaborative squad travel concierge that transforms chaotic group escapes into cohesive, stress-free journeys. By unifying bookings, interactive mapping, multi-currency budgeting, and individual accessibility needs into a single responsive dashboard, it eliminates the need to juggle multiple disconnected travel apps. Its centerpiece innovation, the "Split & Reconnect" Compromise Engine, solves group pacing dilemmas by letting travelers divide into parallel daytime tracks and automatically reuniting them at sunset with zero wait time. Combined with dynamic "Plan B" weather contingencies and smart debt minimization, Wayfarer ensures every member travels on their own terms while keeping the squad united. Wayfarer is also built for all devices so users can use it anytime, and anywhere.
 
 ### Feature Set
 * "Split & Reconnect" Squad Compromise Engine: Enables 1-click member vibe allocation between high-energy and chill tracks, synchronized parallel schedules, and automatic sunset convergence at a mutual evening landmark.
@@ -21,6 +21,7 @@ Wayfarer is an all-in-one collaborative squad travel concierge that transforms c
 * Centralized Booking Manager and Live Price Tracker: Consolidates lodging, transit, and activity passes with confirmation codes and price trend tracking.
 * Squad Hub, Democratic Voting and Accessibility Profiles: Ingests dietary and mobility requirements to guide routing, while enabling squad upvoting on wishlist destinations.
 * Wayfarer AI Travel Concierge: Context-aware destination assistant offering local etiquette tips, packing lists tailored to forecast climates, and contextual recommendations.
+* Accessible using all devices.
 
 ---
 
