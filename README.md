@@ -1,9 +1,9 @@
 # Wayfarer by Gugu Gaga
 Team: LIM PIN GUAN, BRANDON CHAN EN HAO, TAN YU QING, NG KAH LOK
 <br>Problem Statement: Travel Planner
-<br>Video Presentation: [Unlisted Youtube Link]</br>
+<br>Video Presentation: https://youtu.be/fcK3e_suvSM?si=SquHyY9xq0sFfJZ6</br>
 Presentation Slides: [Public Link]
-<br>Prototype: https://63791706c734491ba9f6-strong-signal-xbny5qeq.projects.builder.my/</br>
+<br>Prototype: [https://wayfarer2.netlify.app/]</br>
 
 # 1. Project Overview
 
