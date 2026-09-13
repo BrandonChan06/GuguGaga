@@ -1,9 +1,9 @@
 # Wayfarer by Gugu Gaga
 Team: LIM PIN GUAN, BRANDON CHAN EN HAO, TAN YU QING, NG KAH LOK
 <br>Problem Statement: Travel Planner
-<br>Video Presentation: [Unlisted Youtube Link]</br>
+<br>Video Presentation: https://youtu.be/fcK3e_suvSM?si=SquHyY9xq0sFfJZ6</br>
 Presentation Slides: [Public Link]
-<br>Prototype: https://63791706c734491ba9f6-strong-signal-xbny5qeq.projects.builder.my/</br>
+<br>Prototype: [https://wayfarer2.netlify.app/]</br>
 
 # 1. Project Overview
 
@@ -48,23 +48,27 @@ Wayfarer is an all-in-one collaborative squad travel concierge that transforms c
 
 ## 2.2 Ideation Boards
 
-![Mind Map — Group Travel Pain Points Explosion](mindmap.png)  
+<img width="452" height="253" alt="image" src="https://github.com/user-attachments/assets/ec2bc718-3104-41a3-a77d-3eee5e58cc9e" />
+ 
 Our opening brainstorm mapped group travel frustrations into pacing conflicts, planning chaos, money stress, and logistics nightmares to define the MVP scope.
 
-![5 Whys — Root Cause Drill-Down](5whys.png)  
+<img width="452" height="251" alt="image" src="https://github.com/user-attachments/assets/82899198-d9d2-41c9-9aca-fc43af7d30d8" />
+
 This root-cause analysis revealed that group trip frustration stems from squads being forced to move as one unit without a safe, anxiety-free way to split up and auto-reunite.
 
-![User Flow — Split & Reconnect Journey](userflow.png)  
+<img width="452" height="252" alt="image" src="https://github.com/user-attachments/assets/f1ed7e57-076e-4bbe-ab84-f36d100c8cdc" />
+
 Flowchart detailing how a squad branches into Explorer and Chill tracks after lunch and reconvenes at a Sunset Reconnect point with a 2-minute sync margin.
 
-![MoSCoW Affinity Board — Feature Prioritization](moscow.png)  
+<img width="452" height="251" alt="image" src="https://github.com/user-attachments/assets/1097d536-24f3-431a-a69f-a4fae0eeb3fc" />
+
 Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-Have, and Dropped buckets to preserve engineering feasibility.
 
 ## 2.3 Mentor Consultation
 
 | Date | Mentor | Feedback Received | What Was Changed |
 | :--- | :--- | :--- | :--- |
-| [Date] | [Mentor Name] | [Feedback Received] | [What Was Changed] |
+| 13/9 | Mentor | [Feedback Received] | [What Was Changed] |
 
 ---
 
@@ -82,32 +86,55 @@ Prioritization grid categorizing features into Must-Have, Should-Have, Nice-to-H
 # 4. Technical Architecture & Feasibility
 
 ## Tech Stack
-* Frontend Framework: React 19 + TypeScript. Provides sub-millisecond concurrent UI rendering and strict type safety across nested itinerary models. Constraint: React 19 peer-dependency warnings with older component libraries; mitigated by building native React 19 components with custom hooks.
-* Build Tooling: Vite 8. Delivers sub-50ms Hot Module Replacement and optimized chunking. Constraint: ESM-only ecosystem; mitigated by using standard native ECMAScript modules.
-* Styling: Tailwind CSS v4. Zero-runtime overhead with rapid utility class compilation. Constraint: deprecation of legacy config files; mitigated by configuring theme variables directly inside native CSS directives.
-* State Management: React Context + LocalStorage Persistence. Unidirectional, offline-resilient data flow without third-party state bloat. Constraint: browser storage limits; mitigated through normalized JSON structures preparing for cloud database migration.
-* Backend & Database: Supabase (PostgreSQL + PostgREST + Edge Functions). Provides relational data integrity, JSONB support for accessibility preferences, and Row Level Security for squad data isolation. Constraint: inactive tier pausing and connection limits; mitigated with scheduled heartbeat checks and client debouncing.
-* AI & LLM Services: OpenRouter / Claude 3.5 Sonnet / GPT-4o-mini. Powers context-aware recommendations, etiquette tips, and climate-aware packing checklists. Constraint: API rate limits and token latency; mitigated via client-side caching of repetitive prompts and curated fallback responses.
-* External APIs: OpenWeather API & Open Exchange Rates. Provides rain forecasting for Plan B triggers and live exchange rates across 8 currencies. Constraint: public API rate limits; mitigated by caching weather responses for 60 minutes and updating exchange rates on session start.
-* Hosting: Vercel / Cloudflare Pages. Provides automated Git deployments, edge CDN distribution, and automatic SSL. Constraint: serverless function cold starts; mitigated by pre-rendering static assets.
+**Frontend framework:** React 19 with TypeScript 5.7  
+* **Pros:** Offers the latest performance optimizations, seamless modern component rendering, and strict type safety that catches errors before running the app.  
+* **Constraint:** Components must be default exports. All markup elements and brackets must be strictly closed. Apostrophes inside single-quoted strings must be avoided or escaped to prevent compilation errors.
 
-## System Architecture Diagram
-Client Layer (React 19, Tailwind CSS v4, SVG Map Engine, React Context State) <---> Edge Gateway (Vercel / Cloudflare with Auth & Rate Throttling) <---> Cloud Backend (Supabase PostgreSQL with Row-Level Security, Edge Functions) & Third-Party APIs (OpenWeather, Open Exchange Rates, OpenRouter AI).
+**Build tooling:** Vite 8 with the React Vite plugin
+* **Pros:** Delivers near-instant local server start-up, ultra-fast hot module reloading when editing files, and rapid code formatting.  
+* **Constraint:** The development server is pre-managed and runs on a dedicated port in the background. Path shortcuts are tied to the source directory, and preconfigured workspace build plugins must remain intact.
+
+**Styling:** Tailwind CSS v4 with the Tailwind Vite plugin  
+* **Pros:** Generates tiny CSS bundles with zero manual CSS build steps, providing modern styling rules and fast responsive layout creation.  
+* **Constraint:** Does not use traditional styling configuration or preprocessor files. Custom fonts and theme variables must be placed directly at the top of the main global stylesheet.
+
+**State management:** Native React 19 Hooks (`useState` and `useMemo`)  
+* **Pros:** Built directly into the runtime without adding external package bloat, keeping data flow predictable and easy to trace.  
+* **Constraint:** No third-party state managers like Redux or Zustand are installed. All shared app data must be stored in the root view and passed down to screens through component properties.
+
+**Backend & Database:** Supabase (PostgreSQL)  
+* **Pros:** Gives you a powerful relational database out of the box with built-in user authentication, file storage, and instant real-time data sync for group planning.  
+* **Cons:** Complex relational schemas can take more time to design upfront compared to document databases, and unused free projects are paused after inactivity.
+
+**AI & LLM Service:** Gemini API (Google AI Studio)  
+* **Pros:** Offers a generous free tier, huge context limits to read entire trip plans at once, and fast processing speeds.  
+* **Cons:** Rate limits on the free tier can be tight during peak times, and safety filters can occasionally block harmless travel queries.
+
+**APIs and Services Used**
+
+**API Mapping Service:** Mapbox  
+* **Pros:** Generous free tier with highly customizable, beautiful map themes that seamlessly match modern app designs.  
+* **Cons:** Its place search and opening hour data are not as rich or reliable as Google Maps.
+
+**Weather Service:** OpenWeatherMap API  
+* **Pros:** Industry standard with dependable hourly forecasts and weather alerts worldwide.  
+* **Cons:** Hourly and multi-day historical data often require a paid subscription.
+
+**Currency Service:** Frankfurter API  
+* **Pros:** Completely free, easy to use, requires no API key, and supports over 200 currencies with reliable daily exchange rates.
+* **Cons:** Exchange rates are updated daily instead of in real time, and rates may not update on weekends or public holidays.
+
+**Hosting Platform:** Vercel  
+* **Pros:** Effortless Git integration, automated preview deployments for every update, and blazing-fast global edge delivery.  
+* **Cons:** Bandwidth limits on the free tier can be reached quickly if you host heavy image files directly instead of through cloud storage.
 
 ## Build Plan & Scope
 
-### Phase 1: MVP Core Scope (Built & Demonstrated)
 * "Split & Reconnect" Engine: Parallel timeline branching (Explorer vs. Chill tracks), member assignment chips, and automated Sunset Reconnect convergence scheduling.
 * Day-by-Day Itinerary Planner: Daily navigation with time-stamped cards and 1-tap Plan B weather alternative swaps.
-* Interactive Spatial SVG Walking Map: Vector map plotting daily stops, walking routes, and convergence beacons.
+* Interactive Spatial SVG Walking Map: Map plotting daily stops, walking routes, and convergence beacons.
 * Multi-Currency Budget Tracker: Categorized expense logging, live conversion across 8 currencies, and a debt minimization settlement graph.
 * Democratic Wishlist Board: Wishlist cards with interactive upvoting and downvoting tallies.
 * Accessibility Traveler Profiles: Member profiles capturing mobility constraints and dietary restrictions to guide routing.
 * AI Concierge & Smart Packing Checklist: Conversational travel assistant and climate-tailored packing checklist generator.
 * Multi-Trip Switcher & Booking Repository: Multi-trip workspace switching and centralized reservation voucher storage.
-
-### Phase 2: Post-MVP Scope (Out of Scope for Initial Build)
-* Continuous Real-Time GPS Tracking: Excluded to prevent battery drain and preserve privacy; solved via planned ETA synchronization instead.
-* In-App Direct Payment Gateway: Excluded to avoid banking/escrow compliance overhead; settlements occur externally via users' preferred banking apps.
-* Direct OTA Booking Checkout Engine: Excluded to bypass complex airline/hotel GDS API contracting; users import existing booking codes.
-* Native AR Camera Navigation: Excluded in favor of universal, cross-platform web SVG mapping accessible on any browser.
